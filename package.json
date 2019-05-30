@@ -1,12 +1,15 @@
 {
 	"dependencies": {
-		"express": "^4.17.1"
+		"express": "^4.17.1",
+		"knex": "^0.17.0",
+		"pg": "^7.11.0"
 	},
 	"scripts": {
 		"start": "node index.js",
 		"server": "nodemon index.js"
 	},
 	"devDependencies": {
-		"nodemon": "^1.19.1"
+		"nodemon": "^1.19.1",
+		"sqlite3": "^4.0.8"
 	}
 }
