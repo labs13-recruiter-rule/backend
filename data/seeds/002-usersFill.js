@@ -18,7 +18,7 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num; i++) {
     fakeUsers.push(createFake());
   }
-  await knex('users').insert(fakeUsers);
+  await db('users').insert(fakeUsers);
 
   const fakeUsers2 = [];
   const num2 = 80;
@@ -27,7 +27,7 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num2; i++) {
     fakeUsers2.push(createFake());
   }
-  await knex('users').insert(fakeUsers2);
+  await db('users').insert(fakeUsers2);
 
   const fakeUsers3 = [];
   const num3 = 80;
@@ -36,7 +36,7 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num2; i++) {
     fakeUsers3.push(createFake());
   }
-  await knex('users').insert(fakeUsers3);
+  await db('users').insert(fakeUsers3);
 
   const fakeUsers4 = [];
   const num4 = 80;
@@ -45,7 +45,7 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num4; i++) {
     fakeUsers4.push(createFake());
   }
-  await knex('users').insert(fakeUsers4);
+  await db('users').insert(fakeUsers4);
 
   const fakeUsers5 = [];
   const num5 = 80;
@@ -54,7 +54,7 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num5; i++) {
     fakeUsers5.push(createFake());
   }
-  await knex('users').insert(fakeUsers5);
+  await db('users').insert(fakeUsers5);
 
   const fakeUsers6 = [];
   const num6 = 80;
@@ -63,7 +63,7 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num6; i++) {
     fakeUsers6.push(createFake());
   }
-  await knex('users').insert(fakeUsers6);
+  await db('users').insert(fakeUsers6);
 
   const fakeUsers7 = [];
   const num7 = 80;
@@ -72,5 +72,5 @@ exports.seed = async function(knex, Promise) {
   for (let i = 0; i < num7; i++) {
     fakeUsers7.push(createFake());
   }
-  await knex('users').insert(fakeUsers7);
+  await db('users').insert(fakeUsers7);
 };
