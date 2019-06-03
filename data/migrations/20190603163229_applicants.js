@@ -1,5 +1,5 @@
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('applicants', table => {
+  return knex.schema.createTable('recruitees', table => {
     table.increments('id');
     table
       .integer('open_position_id')
@@ -17,9 +17,10 @@ exports.up = function(knex, Promise) {
       .inTable('jobCandidates')
       .onDelete('RESTRICT')
       .onUpdate('CASCADE');
+    table.boolean('applied').defaultTo(false);
   });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('applicants');
+  return knex.schema.dropTableIfExists('recruitees');
 };
