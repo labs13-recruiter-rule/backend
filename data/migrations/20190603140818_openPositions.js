@@ -18,6 +18,7 @@ exports.up = function(knex, Promise) {
     table.integer('fill_by_year');
     table.integer('job_description').text();
     table.integer('job_requirements').text();
+    table.boolean('position_filled').defaultTo(false);
   });
 };
 
