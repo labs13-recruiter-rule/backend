@@ -99,6 +99,7 @@ To get the server running locally:
   city: STRING
   state: STRING
   zip_code: STRING
+  country: STRING
 
 }
 ```
@@ -120,6 +121,7 @@ To get the server running locally:
   city: STRING
   state: STRING
   zipcode: STRING
+  country: STRING
   description: STRING
 }
 ```
@@ -234,6 +236,7 @@ To get the server running locally:
   city: STRING
   state: STRING
   zip_code: STRING
+  country: STRING
   job_description: STRING
 }
 ```
