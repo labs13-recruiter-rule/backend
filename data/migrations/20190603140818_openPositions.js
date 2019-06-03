@@ -10,6 +10,8 @@ exports.up = function(knex, Promise) {
       .inTable('companies')
       .onDelete('RESTRICT')
       .onUpdate('CASCADE'); // foreign key references company id
+
+    table.integer('number_of_positions');
   });
 };
 
