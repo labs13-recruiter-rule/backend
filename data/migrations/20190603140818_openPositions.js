@@ -1,0 +1,18 @@
+exports.up = function(knex, Promise) {
+  return knex.schema.createTable('openPositions', table => {
+    table.increments(); // id
+    table.string('position_name').notNullable();
+    tbl
+      .integer('company_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('companies')
+      .onDelete('RESTRICT')
+      .onUpdate('CASCADE'); // foreign key references company id
+  });
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('openPositions');
+};
