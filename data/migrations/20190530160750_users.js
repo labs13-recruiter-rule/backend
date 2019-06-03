@@ -6,8 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('last_name').notNullable(); // faker.js lastName
     table.string('profile_photo'); // faker.js avatar
     table.string('email'); // faker.js email
-    table.integer('phone_number'); // faker.js phoneNumber
-    table.integer('job_title');
+    table.string('phone_number'); // faker.js phoneNumber
   });
 };
 

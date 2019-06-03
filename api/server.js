@@ -1,6 +1,7 @@
 // Import dependencies
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 
 // Import Routes
 const usersRouter = require('./routes/usersRouter');
@@ -11,6 +12,7 @@ const server = express();
 // Server middleware
 server.use(express.json());
 server.use(cors());
+server.use(helmet());
 
 // Route usage
 
