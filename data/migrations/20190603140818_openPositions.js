@@ -2,7 +2,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('openPositions', table => {
     table.increments(); // id
     table.string('position_name').notNullable();
-    tbl
+    table
       .integer('company_id')
       .unsigned()
       .notNullable()

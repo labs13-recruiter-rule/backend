@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     table.increments(); // id
     table.string('name').notNullable();
     table.string('company_photo');
-    tbl
+    table
       .integer('company_owner_id')
       .unsigned()
       .notNullable()
