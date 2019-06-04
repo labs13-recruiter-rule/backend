@@ -1,6 +1,17 @@
 const router = require('express').Router();
 
 const Candidates = require('../models/jobCandidates')
+const asyncHandler = cb => {
+    return async(req, res, next) => {
+        try {
+            cb(req, res)
+        } catch (error) {
+            res
+            .status(500)
+            .json(error);
+        }
+    }
+}
 
 router.get('/', (req, res) => {
   Candidates.find()
@@ -14,20 +25,15 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', async (req, res) => {
-  try {
+router.get('/:id', asyncHandler(async (req, res) => {
     const result = await Candidates.findById(req.params.id);
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).json({ message: 'We could not find the candidate' });
-    }
-  } catch (error) {
-    res
-      .status(500)
-      .json(error);
-  }
-});
+        if (result) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ message: 'We could not find the candidate' });
+        }
+    })
+);
 
 router.post('/', async (req, res) => {
   const result = req.body;
