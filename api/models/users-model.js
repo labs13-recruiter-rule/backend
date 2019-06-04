@@ -10,7 +10,14 @@ function getUsersById(id) {
     .first();
 }
 
+function insert(user) {
+  return db('users')
+    .insert(user)
+    .then(ids => ({ id: ids[0] }));
+}
+
 module.exports = {
   getUsers,
   getUsersById,
+  insert,
 };
