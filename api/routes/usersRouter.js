@@ -32,11 +32,11 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  Users.insert(req.body)
+  Users.addUser(req.body)
     .then(user => {
       res.status(200).json({
         message: `user was successfully added to database.`,
-        id: user.id, // returns id on SQL table
+        id: user[0], // returns id on SQL table
       });
     })
     .catch(error => {

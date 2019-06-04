@@ -10,10 +10,8 @@ function getUsersById(id) {
     .first();
 }
 
-function insert(user) {
-  return db('users')
-    .insert(user)
-    .then(ids => ({ id: ids[0] }));
+async function addUser(user) {
+  return db('users').insert(user, 'id');
 }
 
 function update(id, user) {
@@ -31,7 +29,7 @@ function deleteUser(id) {
 module.exports = {
   getUsers,
   getUsersById,
-  insert,
+  addUser,
   update,
   deleteUser,
 };
