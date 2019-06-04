@@ -22,9 +22,16 @@ function update(id, user) {
     .update(user);
 }
 
+function deleteUser(id) {
+  return db('users')
+    .where({ id })
+    .del();
+}
+
 module.exports = {
   getUsers,
   getUsersById,
   insert,
   update,
+  deleteUser,
 };

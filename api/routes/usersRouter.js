@@ -52,13 +52,25 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   Users.update(req.params.id, req.body)
     .then(user => {
-      res.status(200).json({ message: 'Successfully updated!', user });
+      res.status(200).json({ message: 'Successfully updated!' });
     })
     .catch(error => {
       return res.status(500).json({
         error,
         message: 'There was an error updating the database',
       });
+    });
+});
+
+router.delete('/:id', async (req, res) => {
+  Users.deleteUser(req.params.id)
+    .then(deleted => {
+      return res.status(200).json({
+        message: 'User was successfully deleted',
+      });
+    })
+    .catch(error => {
+      res.status(500).json(error);
     });
 });
 
