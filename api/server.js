@@ -5,6 +5,7 @@ const helmet = require('helmet');
 
 // Import Routes
 const usersRouter = require('./routes/usersRouter');
+const jobCandidates = require('./routes/jobCandidates');
 
 // Server invokation
 const server = express();
@@ -17,6 +18,7 @@ server.use(helmet());
 // Route usage
 
 server.use('/users', usersRouter);
+server.use('/candidates', jobCandidates);
 
 server.get('/', (req, res) => {
   res.send(`<p>test, we're up and running! </p>`);

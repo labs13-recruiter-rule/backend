@@ -28,7 +28,7 @@ const update = (id, changes) => {
     })
 }
 
-const remove = (id) => db('tracks').where({ id }).del()
+const remove = (id) => db(table).where({ id }).del()
 
 module.exports = {
   find,
