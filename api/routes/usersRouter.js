@@ -49,4 +49,17 @@ router.post('/', async (req, res) => {
     });
 });
 
+router.put('/:id', async (req, res) => {
+  Users.update(req.params.id, req.body)
+    .then(user => {
+      res.status(200).json({ message: 'Successfully updated!', user });
+    })
+    .catch(error => {
+      return res.status(500).json({
+        error,
+        message: 'There was an error updating the database',
+      });
+    });
+});
+
 module.exports = router;

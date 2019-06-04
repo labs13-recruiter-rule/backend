@@ -60,7 +60,9 @@ To get the server running locally:
 ```
 {
   id: INT
-  name: STRING
+  first_name: STRING
+  last_name: STRING
+  display_name: STRING
   profile_photo: STRING
   firebase_uuid: STRING
   email: STRING
