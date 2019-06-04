@@ -10,6 +10,15 @@ exports.up = function(knex, Promise) {
       .inTable('companies')
       .onDelete('RESTRICT')
       .onUpdate('CASCADE'); // foreign key references company id
+
+    table.integer('number_of_positions');
+    table.timestamp('posted_date').defaultTo(knex.fn.now());
+    table.integer('fill_by_month');
+    table.integer('fill_by_day');
+    table.integer('fill_by_year');
+    table.integer('job_description').text();
+    table.integer('job_requirements').text();
+    table.boolean('position_filled').defaultTo(false);
   });
 };
 
