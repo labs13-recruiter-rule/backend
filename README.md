@@ -32,13 +32,14 @@ To get the server running locally:
 
 #### User Routes
 
-| Method | Endpoint     |     | Description                          |
-| ------ | ------------ | --- | ------------------------------------ |
-| GET    | `/users/`    |     | Returns info for the logged in user. |
-| GET    | `/users/:id` |     | Returns user by user.                |
-| POST   | `/users/`    |     | Adds user to users table.            |
-| PUT    | `/users/:id` |     | Updates user by user id.             |
-| DELETE | `/users/:id` |     | Deletes user by user id.             |
+| Method | Endpoint                     |     | Description                            |
+| ------ | ---------------------------- | --- | -------------------------------------- |
+| GET    | `/users/`                    |     | Returns info for the logged in user.   |
+| GET    | `/users/:id`                 |     | Returns user by user.                  |
+| GET    | `/users/fbid/:firebase_uuid` |     | Returns user id by user firebase_uuid. |
+| POST   | `/users/`                    |     | Adds user to users table.              |
+| PUT    | `/users/:id`                 |     | Updates user by user id.               |
+| DELETE | `/users/:id`                 |     | Deletes user by user id.               |
 
 #### EXAMPLE Organization Routes
 
