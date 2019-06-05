@@ -1,10 +1,11 @@
 const express = require('express');
 const userContacts = require('../models/userContacts-model');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/', async (req, res) => {
+  const id = req.params.userid;
+  console.log(id);
   try {
     const contacts = await userContacts.getContactsByUser(id);
 
@@ -18,3 +19,5 @@ router.get('/:id', async (req, res) => {
     }
   } catch (error) {}
 });
+
+module.exports = router;
