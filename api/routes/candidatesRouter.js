@@ -36,13 +36,13 @@ router.post('/', async (req, res) => {
     .then(candidate => {
       res.status(200).json({
         message: `Candidate was successfully added to database.`,
-        id: candidate[0], // returns id on SQL table
+        id: candidate[0],
       });
     })
     .catch(error => {
       if (error.code === 'SQLITE_CONSTRAINT') {
         return res.status(500).json({
-          message: 'Candidate is already in the database. Proceed like normal.', // This is like this because we'll have to make a POST request to our own DB when someone signs in with Firebase and we *want* it to fail if the person is already in the database.
+          message: 'Candidate is already in the database. Proceed like normal.',
         });
       }
       return res.status(500).json(error);
