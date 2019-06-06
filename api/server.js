@@ -6,6 +6,7 @@ const helmet = require('helmet');
 // Import Routes
 const usersRouter = require('./routes/usersRouter');
 const userContactsRouter = require('./routes/userContacts-router');
+const authRouter = require('./routes/registerRouter');
 
 // Server invokation
 const server = express();
@@ -20,6 +21,8 @@ server.use(helmet());
 server.use('/users', usersRouter);
 
 server.use('/users/:userid/contacts', userContactsRouter);
+
+server.use('/auth', authRouter);
 
 server.get('/', (req, res) => {
   res.send(`<p>test, we're up and running! </p>`);

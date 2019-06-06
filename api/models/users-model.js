@@ -11,9 +11,12 @@ function getUsersById(id) {
 }
 
 function getUserIDByUUID(uuid) {
-  return db('users')
-    .where({ firebase_uuid: uuid })
-    .select('id');
+  return (
+    db('users')
+      .where({ firebase_uuid: uuid })
+      // .select('id');
+      .first()
+  ); // ^v<
 }
 
 async function addUser(user) {
