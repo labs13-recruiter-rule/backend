@@ -16,7 +16,7 @@ function addCandidate(candidate) {
 
 function updateCandidate(id, candidate) {
   return db('candidates')
-    .where({ 'id' })
+    .where({ id })
     .first()
     .update(candidate);
 }
