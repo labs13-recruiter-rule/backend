@@ -40,7 +40,32 @@ async function updateContactByContactID(id, updatedContact) {
     } else {
       return false;
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deleteContactByContactID(id) {
+  try {
+    const contactVerify = await getContactByContactID(id);
+
+    if (contactVerify) {
+      try {
+        const deletedContact = await db('userContacts')
+          .where({ id })
+          .first()
+          .del();
+
+        return deletedContact;
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = {
@@ -48,4 +73,5 @@ module.exports = {
   getContactByContactID,
   addContactToUserContacts,
   updateContactByContactID,
+  deleteContactByContactID,
 };

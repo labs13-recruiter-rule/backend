@@ -99,4 +99,28 @@ router.put('/:contactid', async (req, res) => {
   }
 });
 
+router.delete('/:contactid', async (req, res) => {
+  const { contactid, userid } = req.params;
+
+  try {
+    const deletedContact = await userContacts.deleteContactByContactID(
+      contactid,
+    );
+
+    if (!deletedContact) {
+      res.status(404).json({
+        message:
+          'No contact with specified ID found. Please ensure you are searching for a valid contact.',
+      });
+    } else {
+      const newContactsList = await userContacts.getContactsByUser(userid);
+
+      res.status(200).json(newContactsList);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err });
+  }
+});
+
 module.exports = router;
