@@ -74,4 +74,14 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
+router.get('/fbid/:firebase_uuid', async (req, res) => {
+  Users.getUserIDByUUID(req.params.firebase_uuid)
+    .then(user_id => {
+      res.status(200).json(user_id);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
 module.exports = router;
