@@ -22,8 +22,30 @@ async function addContactToUserContacts(id, contact) {
   return newContact;
 }
 
+async function updateContactByContactID(id, updatedContact) {
+  try {
+    const contactVerify = await getContactByContactID(id);
+
+    if (contactVerify) {
+      try {
+        const contactChanges = await db('userContacts')
+          .where({ id })
+          .first()
+          .update(updatedContact);
+
+        return contactChanges;
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {}
+}
+
 module.exports = {
   getContactsByUser,
   getContactByContactID,
   addContactToUserContacts,
+  updateContactByContactID,
 };
