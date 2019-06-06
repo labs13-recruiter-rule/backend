@@ -40,6 +40,16 @@ To get the server running locally:
 | PUT    | `/users/:id` |     | Updates user by user id.             |
 | DELETE | `/users/:id` |     | Deletes user by user id.             |
 
+### User Contact Routes
+
+| Method | Endpoint                      |     | Description                                                |
+| ------ | ----------------------------- | --- | ---------------------------------------------------------- |
+| GET    | `/users/:userid/contacts`     |     | Returns contacts for that user                             |
+| GET    | `/users/:userid/contacts/:id` |     | Returns specific contact for that user.                    |
+| POST   | `/users/:userid/contacts`     |     | Adds a contact to a user. Needs email and name.            |
+| PUT    | `/users/:userid/contacts/:id` |     | Updates contact by contact id. Returns updated contact     |
+| DELETE | `/users/:userid/contacts/:id` |     | Deletes contact by contact id. Returns entire contact list |
+
 #### EXAMPLE Organization Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
