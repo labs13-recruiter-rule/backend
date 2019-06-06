@@ -6,13 +6,13 @@ exports.up = function (knex, Promise) {
             .references('id')
             .inTable('users');
         tbl
-            .integer('user_id')
+            .integer('contact_id')
             .references('id')
             .inTable('contacts');
         tbl.string('name').notNullable();
         tbl.string('email').notNullable();
         tbl.string('title');
-        table.integer('years_of_experience');
+        tbl.integer('years_of_experience');
         tbl.string('skills');
         tbl.string('education');
         tbl.string('industry');
