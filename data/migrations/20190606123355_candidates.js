@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
         tbl
             .integer('contact_id')
             .references('id')
-            .inTable('contacts');
+            .inTable('userContacts');
         tbl.string('name').notNullable();
         tbl.string('email').notNullable();
         tbl.string('title');
