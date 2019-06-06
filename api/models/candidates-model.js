@@ -16,7 +16,7 @@ async function addCandidate(candidate) {
 
 function updateCandidate(id, candidate) {
   return db('candidates')
-    .where('id', Number(id))
+    .where('id')
     .update(candidate);
 }
 
