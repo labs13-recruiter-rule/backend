@@ -33,11 +33,6 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   Candidates.addCandidate(req.body).then(error => {
-    if (error.code === 'SQLITE_CONSTRAINT') {
-      return res.status(500).json({
-        message: 'Candidate is already in the database. Proceed like normal.',
-      });
-    }
     return res.status(500).json(error);
   });
 });
