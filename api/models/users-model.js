@@ -10,6 +10,12 @@ function getUsersById(id) {
     .first();
 }
 
+function getUserIDByUUID(uuid) {
+  return db('users')
+    .where({ firebase_uuid: uuid })
+    .select('id');
+}
+
 async function addUser(user) {
   return db('users').insert(user, 'id');
 }
@@ -32,4 +38,5 @@ module.exports = {
   addUser,
   update,
   deleteUser,
+  getUserIDByUUID,
 };
