@@ -1,6 +1,6 @@
 const db = require('../../data/dbConfig');
 
-async function getCandidates() {
+function getCandidates() {
   return db('candidates');
 }
 
@@ -10,7 +10,7 @@ function getCandidatesById(id) {
     .first();
 }
 
-async function addCandidate(candidate) {
+function addCandidate(candidate) {
   return db('candidates').insert(candidate, 'id');
 }
 
