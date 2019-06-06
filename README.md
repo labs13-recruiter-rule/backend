@@ -30,26 +30,34 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+#### User Routes
 
-#### Organization Routes
+| Method | Endpoint                     |     | Description                            |
+| ------ | ---------------------------- | --- | -------------------------------------- |
+| GET    | `/users/`                    |     | Returns info for the logged in user.   |
+| GET    | `/users/:id`                 |     | Returns user by user.                  |
+| GET    | `/users/fbid/:firebase_uuid` |     | Returns user id by user firebase_uuid. |
+| POST   | `/users/`                    |     | Adds user to users table.              |
+| PUT    | `/users/:id`                 |     | Updates user by user id.               |
+| DELETE | `/users/:id`                 |     | Deletes user by user id.               |
+
+### User Contact Routes
+
+| Method | Endpoint                      |     | Description                                                |
+| ------ | ----------------------------- | --- | ---------------------------------------------------------- |
+| GET    | `/users/:userid/contacts`     |     | Returns contacts for that user                             |
+| GET    | `/users/:userid/contacts/:id` |     | Returns specific contact for that user.                    |
+| POST   | `/users/:userid/contacts`     |     | Adds a contact to a user. Needs email and name.            |
+| PUT    | `/users/:userid/contacts/:id` |     | Updates contact by contact id. Returns updated contact     |
+| DELETE | `/users/:userid/contacts/:id` |     | Deletes contact by contact id. Returns entire contact list |
+
+#### EXAMPLE Organization Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
 | GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
 | PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
 | DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
-
-#### User Routes
-
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
 
 # Data Model
 
@@ -60,7 +68,9 @@ To get the server running locally:
 ```
 {
   id: INT
-  name: STRING
+  first_name: STRING
+  last_name: STRING
+  display_name: STRING
   profile_photo: STRING
   firebase_uuid: STRING
   email: STRING
