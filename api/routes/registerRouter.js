@@ -6,10 +6,18 @@ const router = express.Router();
 
 router.post('/register', decodeBody, async (req, res) => {
   //
-  const newUser = req.body;
+  console.log("did i make it to the post?")
+  const {firebase_uuid, email } = req.body;
 
+  const newUser = {
+      firebase_uuid: firebase_uuid,
+      email: email
+  }
+  console.log('from newUser, body', newUser);
+//   console.log('from headers', req.headers);
   try {
     const addNewUser = await Users.addUser(newUser);
+    console.log('from addNewUser', addNewUser);
     res.status(200).json({
       message: `user was successfully added to database.`,
       id: addNewUser[0], // returns id on SQL table
@@ -20,7 +28,7 @@ router.post('/register', decodeBody, async (req, res) => {
   }
 });
 
-router.post('/login', decodeBody, async (req, res) => {
+router.post('/login', decodeHeader, async (req, res) => {
   const userLoggingIn = req.body;
 
   try {
