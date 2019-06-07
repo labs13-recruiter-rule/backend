@@ -1,24 +1,38 @@
 var nodemailer = require('nodemailer');
+const express = require('express');
+const router = express.Router();
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'recruiterrule@gmail.com',
-    pass: 'B4B4Bl4ckSh33p!'
+    user: process.env.senderEMAIL,
+    pass: process.env.senderPASSWORD
   }
 });
 
-var mailOptions = {
-  from: 'lambdalabsrecruiter@gmail.com',
-  to: 'ducbavu531@gmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
 
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
+
+
+
+router.post('/', (req, res) => {
+    const recievers = req.body.recievers || 'ducbavu531@gmail.com'
+    var mailOptions = {
+        from: 'recruiterrule@gmail.com',
+        to: recievers,
+        subject: 'Sending Email using Node.js',
+        text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, (error, info)=>{
+        if (error) {
+          console.log(error);
+          res.status(500).json(error)
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(200).json(info)
+        }
+    });
 });
+
+module.exports = router
+
