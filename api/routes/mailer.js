@@ -15,10 +15,10 @@ var transporter = nodemailer.createTransport({
 
 
 router.post('/', (req, res) => {
-    const recievers = req.body.recievers || 'ducbavu531@gmail.com'
+    const receivers = req.body.receivers || 'ducbavu531@gmail.com'
     var mailOptions = {
         from: 'recruiterrule@gmail.com',
-        to: recievers,
+        to: receivers,
         subject: 'Sending Email using Node.js',
         text: 'That was easy!'
     };
