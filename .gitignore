@@ -86,3 +86,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Firebase admin
+recruiter-rules-9c1ec176fb86.json
