@@ -5,18 +5,10 @@ const { decodeHeader, decodeBody } = require('../utils/firebaseAuth');
 const router = express.Router();
 
 router.post('/register', decodeBody, async (req, res) => {
-  //
-  console.log("did i make it to the post?")
-  const {firebase_uuid, email } = req.body;
-
-  const newUser = {
-      firebase_uuid: firebase_uuid,
-      email: email
-  }
-  console.log('from newUser, body', newUser);
-//   console.log('from headers', req.headers);
+  const { user } = req.body;
+  console.log('from newUser, body', user);
   try {
-    const addNewUser = await Users.addUser(newUser);
+    const addNewUser = await Users.addUser(user);
     console.log('from addNewUser', addNewUser);
     res.status(200).json({
       message: `user was successfully added to database.`,
@@ -24,19 +16,20 @@ router.post('/register', decodeBody, async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    // come back and set error res
+    res.status(500).json({ message: err });
   }
 });
 
-router.post('/login', decodeHeader, async (req, res) => {
-  const userLoggingIn = req.body;
+router.post('/login', decodeBody, async (req, res) => {
+  const { user } = req.body;
 
   try {
-    const userLoggedIn = await Users.getUserIDByUUID(userLoggingIn.uid);
+    const userLoggedIn = await Users.getUserIDByUUID(user.firebase_uuid);
 
     res.status(200).json(userLoggedIn);
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: err });
   }
 });
 
