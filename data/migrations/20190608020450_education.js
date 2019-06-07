@@ -8,6 +8,7 @@ exports.up = function (knex, Promise) {
         tbl.datetime('end_year')
         tbl.float('grade')
         tbl.string('activities_and_societies')
+        tbl.string('description')
     });
 };
 
