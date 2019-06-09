@@ -11,19 +11,17 @@ exports.up = function (knex, Promise) {
         // tbl.string('description')
         
         tbl
-            .integer('engine_id')
-            .references('id')
-            .inTable('engines');
-        tbl
-            .integer('engine_id')
-            .references('id')
-            .inTable('engines');
+        .integer('engine_id')
+        .references('id')
+        .inTable('engines');
 
-        id int [pk]
-        engineId int [ref: > engine.id]
-        keywordContained boolean
-        keyword varchar
-        recipient int [ref: > role.id]
+        tbl
+        .integer('send_to')
+        .references('id')
+        .inTable('roles');
+
+        tbl.string('keyword')
+        tbl.boolean('keywordContained')
     });
 };
 
