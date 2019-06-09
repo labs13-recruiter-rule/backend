@@ -2,10 +2,10 @@
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('roles', tbl => {
         tbl.increments();
-        // tbl.string('conditions')
-        tbl.string('description')
+        tbl.string('title')
+
         tbl
-        .integer('userId')
+        .integer('user_Id')
         .references('id')
         .inTable('users')
         .notNullable();
