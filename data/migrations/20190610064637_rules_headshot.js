@@ -1,8 +1,7 @@
 
 exports.up = function(knex, Promise) {
-    return knex.schema.createTable('rules_publication', tbl => {
+    return knex.schema.createTable('rules_headshot', tbl => {
         tbl.increments();
-
 
         tbl
         .integer('engine_id')
@@ -14,11 +13,10 @@ exports.up = function(knex, Promise) {
         .references('id')
         .inTable('roles');
 
-        tbl.string('keyword')
-        tbl.boolean('keywordContained')
+        tbl.boolean('existed')
     });
 };
 
 exports.down = function(knex, Promise) {
-    return knex.schema.dropTableIfExists('rules_publication');
+    return knex.schema.dropTableIfExists('rules_headshot');
 };
