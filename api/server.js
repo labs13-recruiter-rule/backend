@@ -8,6 +8,7 @@ const usersRouter = require('./routes/usersRouter');
 const userContactsRouter = require('./routes/userContacts-router');
 const candidatesRouter = require('./routes/candidatesRouter');
 const mailerRouter = require('./routes/mailer');
+const enginesRouter = require('./routes/enginesRouter');
 
 // Server invokation
 const server = express();
@@ -25,6 +26,7 @@ server.use('/users/:userid/contacts', userContactsRouter);
 
 server.use('/candidates', candidatesRouter);
 server.use('/mailer', mailerRouter);
+server.use('/engines', enginesRouter);
 
 server.get('/', (req, res) => {
   res.send(`<p>test, we're up and running! </p>`);

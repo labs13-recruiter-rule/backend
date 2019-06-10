@@ -1,13 +1,18 @@
 const db = require('../../data/dbConfig');
 
 async function getEngines() {
-  return db('users');
+  return db('engines');
 }
 
 function getEnginesById(id) {
-  return db('users')
-    .where({ id })
-    .first();
+  return db('engines')
+    // .first()
+    .join('rules_headshot', 'rules_headshot.engine_id', 'engines.id')
+    .join('roles', 'rules_headshot.send_to', 'roles.id')
+    .where('engines.id', id)
+
+    //   .join('roles', 'rules_headshot.send_to', 'roles.id')
+
 }
 
 // function getUserIDByUUID(uuid) {
