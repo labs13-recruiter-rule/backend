@@ -9,7 +9,6 @@ const router = express.Router({ mergeParams: true });
 // endpoint /users/:id/contacts returns all contacts belonging to that user
 router.get('/', decodeHeader, async (req, res) => {
   const id = req.headers.user.firebase_uuid;
-  console.log(id);
   try {
     const contacts = await userContacts.getContactsByUser(id);
 
