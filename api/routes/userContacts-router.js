@@ -1,12 +1,14 @@
 const express = require('express');
 const userContacts = require('../models/userContacts-model');
+const contactAuthMW = require('../utils/contactAuthMW');
+const { decodeBody, decodeHeader } = require('../utils/firebaseAuth');
 
 // mergeParams allows us to grab URL params from other/previously defined routes
 const router = express.Router({ mergeParams: true });
 
 // endpoint /users/:id/contacts returns all contacts belonging to that user
-router.get('/', async (req, res) => {
-  const id = req.params.userid;
+router.get('/', decodeHeader, async (req, res) => {
+  const id = req.headers.user.firebase_uuid;
   console.log(id);
   try {
     const contacts = await userContacts.getContactsByUser(id);
@@ -24,8 +26,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  const id = req.params.userid;
+router.post('/', decodeHeader, async (req, res) => {
+  const id = req.headers.user.firebase_uuid;
   const { name, email } = req.body;
 
   if (name && email) {
@@ -46,7 +48,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:contactid', async (req, res) => {
+router.get('/:contactid', decodeHeader, contactAuthMW, async (req, res) => {
   //
   const { contactid } = req.params;
 
@@ -66,7 +68,7 @@ router.get('/:contactid', async (req, res) => {
   }
 });
 
-router.put('/:contactid', async (req, res) => {
+router.put('/:contactid', decodeHeader, contactAuthMW, async (req, res) => {
   // Note: Add middleware to make sure only user who owns contact can add/delete/update/read their contacts
   const { contactid } = req.params;
   const { name, email } = req.body;
@@ -99,8 +101,8 @@ router.put('/:contactid', async (req, res) => {
   }
 });
 
-router.delete('/:contactid', async (req, res) => {
-  const { contactid, userid } = req.params;
+router.delete('/:contactid', decodeHeader, contactAuthMW, async (req, res) => {
+  const { contactid } = req.params;
 
   try {
     const deletedContact = await userContacts.deleteContactByContactID(
@@ -113,7 +115,9 @@ router.delete('/:contactid', async (req, res) => {
           'No contact with specified ID found. Please ensure you are searching for a valid contact.',
       });
     } else {
-      const newContactsList = await userContacts.getContactsByUser(userid);
+      const newContactsList = await userContacts.getContactsByUser(
+        req.headers.user.firebase_uuid,
+      );
 
       res.status(200).json(newContactsList);
     }

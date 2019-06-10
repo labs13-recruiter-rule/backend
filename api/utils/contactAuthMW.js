@@ -3,8 +3,9 @@ const userContacts = require('../models/userContacts-model');
 
 async function grabContactUser(id) {
   const contact = await userContacts.getContactByContactID(id);
-  const userContactBelongsTo = await contact.userContactBelongsTo;
-  return userContactBelongsTo;
+  if (contact) {
+    return contact.userContactBelongsTo;
+  }
 }
 
 module.exports = async (req, res, next) => {
@@ -12,7 +13,7 @@ module.exports = async (req, res, next) => {
   // come back to this when we figure out optimal token/header req solution
   // for now simple check 'no auth'
 
-  const contactData = req.params.id;
+  const contactData = req.params.contactid;
 
   // Contact ownership definition
   const userContactBelongsToID = await grabContactUser(contactData);
@@ -20,7 +21,7 @@ module.exports = async (req, res, next) => {
   // First, check if contact even exists. Contact will always have a "User owner", so check based on that.
   if (!userContactBelongsToID) {
     res.status(404).json({ message: `No contact artifact found.` });
-  } else if ('blah') {
+  } else if (userContactBelongsToID === req.headers.user.firebase_uuid) {
     // come back and change blah to be userContact to userRequesting ===
     // Now we're checking that the user who is logged in is indeed the owner of this contact. If so, continue.
     next();
