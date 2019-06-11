@@ -2,8 +2,8 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('userContacts', tbl => {
     tbl.increments();
     tbl
-      .integer('userContactBelongsTo')
-      .references('id')
+      .string('userContactBelongsTo')
+      .references('firebase_uuid')
       .inTable('users')
       .notNullable();
     tbl.string('name').notNullable();
