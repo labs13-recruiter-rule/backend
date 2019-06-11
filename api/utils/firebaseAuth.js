@@ -7,40 +7,54 @@ module.exports = {
 
 function decodeBody(req, res, next) {
   const { token } = req.body;
-  admin
-    .auth()
-    .verifyIdToken(token)
-    .then(decodedToken => {
-      // set what we want in body here
-      req.body.user = {
-        email: decodedToken.email,
-        firebase_uuid: decodedToken.uid,
-        display_name: decodedToken.name,
-        profile_photo: decodedToken.profile_photo,
-      };
 
-      next();
-    })
-    .catch(err => {
-      console.log('from decodeBody', err);
-      res.status(401).json({ message: 'Invalid token!', err });
+  if (token) {
+    admin
+      .auth()
+      .verifyIdToken(token)
+      .then(decodedToken => {
+        // set what we want in body here
+        req.body.user = {
+          email: decodedToken.email,
+          firebase_uuid: decodedToken.uid,
+          display_name: decodedToken.name,
+          profile_photo: decodedToken.profile_photo,
+        };
+
+        next();
+      })
+      .catch(err => {
+        res.status(401).json({ message: 'Invalid token!', err });
+      });
+  } else {
+    res.status(401).json({
+      Message: `You are missing an authentication token. Please login to obtain one!`,
     });
+  }
 }
 
 function decodeHeader(req, res, next) {
   const { token } = req.headers;
-  // Don't use this function
+  if (token) {
+    admin
+      .auth()
+      .verifyIdToken(token)
+      .then(decodedToken => {
+        req.headers.user = {
+          email: decodedToken.email,
+          firebase_uuid: decodedToken.uid,
+          display_name: decodedToken.name,
+          profile_photo: decodedToken.profile_photo,
+        };
 
-  // admin
-  //   .auth()
-  //   .verifyIdToken(token)
-  //   .then(decodedToken => {
-  //     console.log(decodedToken);
-  //     // set what we want in headers here
-  //     req.headers.uid = decodedToken.user_id;
-  //     console.log('rhead', req.headers.uid);
-  //   })
-  //   .catch(err => {
-  //     console.log('from decodeHeader', err);
-  //   });
+        next();
+      })
+      .catch(err => {
+        res.status(500).json({ Message: `Token error!`, err });
+      });
+  } else {
+    res.status(401).json({
+      Message: `You are missing an authentication token. Please login to obtain one!`,
+    });
+  }
 }
