@@ -9,7 +9,7 @@
 //   display_name: faker.name.findName(),
 // });
 
-// exports.seed = async function(knex, Promise) {
+exports.seed = async function(knex, Promise) {
 //   const fakeUsers = [];
 //   const num = process.env.SEED_NUM || 80;
 
@@ -21,6 +21,6 @@
 
 //     return db('users').insert(fakeUsers);
 //   });
-// };
+};
 
 // THE ABOVE IS COMMENTED OUT BECAUSE OUR FOREIGN KEY TO THE USERS TABLE IS NOW THE FIREBASE_UUID

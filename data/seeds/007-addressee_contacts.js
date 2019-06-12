@@ -4,7 +4,7 @@ exports.seed = function(knex, Promise) {
     .del()
     .then(function() {
       // Inserts seed entries
-      return knex('rules').insert([
+      return knex('addressee_contacts').insert([
         {
           id: 1,
           user_id: 'abc123cba',
@@ -54,31 +54,31 @@ exports.seed = function(knex, Promise) {
           contact_id: 6,
         },
         {
-          id: 7,
+          id: 9,
           user_id: 'xyz987zyx',
           addressee_id: 3,
           contact_id: 9,
         },
         {
-          id: 8,
+          id: 10,
           user_id: 'abc123xyz',
           addressee_id: 6,
           contact_id: 8,
         },
         {
-          id: 9,
+          id: 11,
           user_id: 'abc123xyz',
           addressee_id: 5,
           contact_id: 5,
         },
         {
-          id: 10,
+          id: 12,
           user_id: 'abc123xyz',
           addressee_id: 4,
           contact_id: 2,
         },
         {
-          id: 11,
+          id: 13,
           user_id: 'abc123xyz',
           addressee_id: 4,
           contact_id: 5,
