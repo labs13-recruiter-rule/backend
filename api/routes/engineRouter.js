@@ -129,4 +129,52 @@ router.post('/addRule', decodeHeader, async (req, res) => {
   }
 });
 
+router.get('/getRule/:id', decodeHeader, async (req, res) => {
+  // remember to add in engineAuthMW so only engine creators can access their engines
+  const { id } = req.params;
+
+  try {
+    const engineToReturn = await userEngines.getEnginesById(id);
+    console.log(engineToReturn);
+    res.status(200).json({ message: 'Engine found!', engineToReturn });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+router.get('/useRule/:id', decodeHeader, async (req, res) => {
+  // remember to add in engineAuthMW so
+  // only engine creators can access their engines
+  const { id } = req.params;
+  const { candidate } = req.body;
+
+  try {
+    const engineToReturnAndUse = await userEngines.getEnginesById(id);
+    const engineToUse = engineToReturnAndUse.rule;
+
+    if (engineToUse) {
+      const engine = new Engine();
+
+      const restoredRule = new Rule(engineToUse);
+      engine.addRule(restoredRule);
+
+      //
+      engine
+        .run(candidate)
+        .then(function(events) {
+          console.log('good, sent');
+
+          events.map(event => eval(event.params.sendFunc));
+        })
+        .catch(err => {
+          console.log('eng catch no work', err);
+        });
+    } else {
+      console.log('no engine found, rip');
+    }
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
 module.exports = router;
