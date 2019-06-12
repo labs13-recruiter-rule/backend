@@ -5,7 +5,8 @@ exports.up = function(knex, Promise) {
       .string('userContactBelongsTo')
       .references('firebase_uuid')
       .inTable('users')
-      .notNullable();
+      .notNullable(); // foreign key referencing firebase_uuid in users table
+
     tbl.string('name').notNullable();
     tbl.string('email').notNullable();
   });
