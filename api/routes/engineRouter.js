@@ -1,29 +1,22 @@
 const express = require('express');
-const { Engine } = require('json-rules-engine');
+const { Engine, Rule } = require('json-rules-engine');
 const nodemailer = require('nodemailer');
+const { sendFunc } = require('./mailerFunc');
+const userEngines = require('../models/engines-model');
 
 const router = express.Router();
 
-const receivers = 'omaro@me.com';
-
 router.post('/', (req, res) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.senderEMAIL,
-      pass: process.env.senderPASSWORD,
-    },
-  });
-  const candidate = req.body;
-
-  const mailOptions = {
-    from: 'recruiterrule@gmail.com',
-    to: receivers,
-    subject: 'dont want this email again v1',
-    text: 'still need to figure out passing a candidate in here without getting obj Obj',
-  };
   const engine = new Engine();
 
+  // const mailOptions = canSend => {
+  //   return {
+  //     from: 'recruiterrule@gmail.com',
+  //     to: receivers,
+  //     subject: 'want this email again v1',
+  //     text: canSend,
+  //   };
+  // };
   const jsCandidateRule = {
     conditions: {
       all: [
@@ -43,16 +36,28 @@ router.post('/', (req, res) => {
       type: 'send-to-omar-email',
       params: {
         sendFunc: () =>
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              res.status(500).json({ message: 'email error', error });
-            } else {
-              res.status(200).json({ message: 'we good' });
-            }
-          }),
+          // transporter.sendMail(mailOptions('test'), (error, info) => {
+          //   if (error) {
+          //     res.status(500).json({ message: 'email error', error });
+          //   } else {
+          //     res.status(200).json({ message: 'we good' });
+          //   }
+          // }),
+          sendFunc('omaro@me.com', 'joe'),
       },
     },
   };
+
+  // const jsCand = new Rule(jsCandidateRule);
+  // console.log(jsCanJSON);
+  // console.log('from jsCand', jsCand);
+
+  // const jsCandString = jsCand.toJSON();
+  // console.log(jsCandString);
+  // const restoredRule = new Rule(jsCandString);
+  // console.log(restoredRule, 'rule restored');
+  // console.log(jsCand, 'rule jsCand');
+  // engine.addRule(jsCandidateRule);
 
   engine.addRule(jsCandidateRule);
 
@@ -69,9 +74,14 @@ router.post('/', (req, res) => {
   engine
     .run(facts)
     .then(function(events) {
+      console.log('good, sent');
       events.map(event => event.params.sendFunc());
     })
     .catch(err => res.status(500).json({ message: 'were not good', err }));
+});
+
+router.post('/addRule', async (req, res) => {
+  // Endpoint for adding rules to a user's rules list/DB
 });
 
 module.exports = router;
