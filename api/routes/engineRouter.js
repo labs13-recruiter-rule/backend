@@ -1,14 +1,16 @@
 const express = require('express');
 const { Engine, Rule } = require('json-rules-engine');
-const nodemailer = require('nodemailer');
+
+// local imports
 const { sendFunc } = require('./mailerFunc');
 const userEngines = require('../models/engines-model');
+const { decodeHeader } = require('../utils/firebaseAuth');
 
 const router = express.Router();
 
 router.post('/', (req, res) => {
   const engine = new Engine();
-
+  const { candidate } = req.body;
   // const mailOptions = canSend => {
   //   return {
   //     from: 'recruiterrule@gmail.com',
@@ -35,7 +37,7 @@ router.post('/', (req, res) => {
     event: {
       type: 'send-to-omar-email',
       params: {
-        sendFunc: () =>
+        sendFunc: (r, c) =>
           // transporter.sendMail(mailOptions('test'), (error, info) => {
           //   if (error) {
           //     res.status(500).json({ message: 'email error', error });
@@ -43,7 +45,10 @@ router.post('/', (req, res) => {
           //     res.status(200).json({ message: 'we good' });
           //   }
           // }),
-          sendFunc('omaro@me.com', 'joe'),
+          {
+            sendFunc('omaro@me.com', c);
+            // console.log('from c', c);
+          },
       },
     },
   };
@@ -61,27 +66,67 @@ router.post('/', (req, res) => {
 
   engine.addRule(jsCandidateRule);
 
-  const facts = req.body;
-
   engine
     .on('success', (event, almanac) => {
       console.log('has all of the skills');
+
+      // event.params.sendFunc('r', almanac.factValue('*'));
+
+      res.status(200).json({
+        message:
+          'Candidate met all expectations, passed the engine, and was emailed to the correct recepient.',
+      });
     })
     .on('failure', event => {
       console.log('did not have all of the skills');
+      res.status(203).json({
+        message:
+          'Candidate did not meet all expectations and was not emailed to anybody.',
+      });
     });
 
+  // engine.addFact('candidate-info', function(params, almanac) {
+  //   return almanac.factValue('candidate').then(skill => {
+  //     return skill;
+  //   });
+  // });
+
   engine
-    .run(facts)
+    .run(candidate)
     .then(function(events) {
       console.log('good, sent');
-      events.map(event => event.params.sendFunc());
+
+      events.map(event => event.params.sendFunc('r', candidate));
     })
-    .catch(err => res.status(500).json({ message: 'were not good', err }));
+    .catch(err => {
+      // res.status(500).json({ message: 'were not good', err }));
+      console.log(err);
+    });
 });
 
-router.post('/addRule', async (req, res) => {
+router.post('/addRule', decodeHeader, async (req, res) => {
   // Endpoint for adding rules to a user's rules list/DB
+
+  const ruleReceived = req.body;
+
+  const ruleToAdd = new Rule(ruleReceived);
+  const ruleToAddJSON = ruleToAdd.toJSON();
+  // console.log(ruleToAddJSON);
+
+  const engine = {
+    user_id: req.headers.user.firebase_uuid,
+    rule: ruleToAddJSON,
+  };
+  try {
+    const newEngineRule = await userEngines.addEngineToUser(engine);
+    res.status(201).json({
+      message: 'Your new engine was added succesfully!',
+      newEngineRule,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error', error });
+  }
 });
 
 module.exports = router;
