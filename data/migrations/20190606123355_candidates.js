@@ -19,6 +19,7 @@ exports.up = function(knex, Promise) {
     tbl.boolean('bio');
     tbl.boolean('picture');
     tbl.boolean('posts');
+    tbl.string('linkedin_url');
   });
 };
 
