@@ -56,20 +56,19 @@ To get the server running locally:
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
 | GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
+| PUT    | `/organizations/:orgId` | owners         | Modify an existing organization.             |
 | DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
 
 # Data Model
 
-#### 2️⃣ USERS
+#### users
 
 ---
 
 ```
 {
   id: INT
-  first_name: STRING
-  last_name: STRING
+  firebase_uuid: STRING
   display_name: STRING
   profile_photo: STRING
   firebase_uuid: STRING
@@ -78,231 +77,96 @@ To get the server running locally:
 }
 ```
 
-#### COMPANIES
+#### userContacts
 
 ---
 
 ```
 {
   id: INT
-  name: STRING
-  company_photo: STRING
-}
-```
-
-#### JOB CANDIDATES
-
----
-
-```
-{
-  id: INT
+  user_id: STRING (fk: firebase_uuid in users)
   name: STRING
   email: STRING
-  phone_number: STRING
-  currently_employed: BOOLEAN
-  current_company: STRING
-  actively_searching: BOOLEAN
-  industry: STRING
-  current_position: STRING
-  years_of_experience: INT
-  city: STRING
-  state: STRING
-  zip_code: STRING
-  country: STRING
-
 }
 ```
 
-#### VOLUNTEER EXPERIENCE
+#### candidates
 
 ---
 
 ```
 {
   id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  start_date_month: INT
-  start_date_year: INT
-  end_date_month: INT
-  end_date_year: INT
-  title: STRING
-  organization_name: STRING
-  city: STRING
-  state: STRING
-  zipcode: STRING
-  country: STRING
-  description: STRING
-}
-```
-
-#### EDUCATION
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  school_name: STRING
-  graduation_year: INT
-  graduation_month: INT
-  degree_type: STRING
-  majors: STRING
-}
-```
-
-#### JOB SKILLS
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  skill_name: STRING
-}
-```
-
-#### CERTIFICATIONS
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  certificate_name: STRING
-  organization: STRING
-  completed_month: INT
-  completed_year: INT
-  expiration_month: INT
-  expiration_year: INT
-  verification_url: STRING
-  verification_id: STRING
-}
-```
-
-#### PROJECTS
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  project_name: STRING
-  project_url: STRING
-  project_description: STRING
-  project_start_month: INT
-  project_start_year: INT
-  project_end_month: INT
-  project_end_year: INT
-}
-```
-
-#### LANGUAGES
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  language_name: STRING
-  proficiency: STRING
-}
-```
-
-#### AWARDS
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  award_name: STRING
-  award_month: INT
-  award_year: INT
-  awarded_by: STRING
-}
-```
-
-#### WORK EXPERIENCE
-
----
-
-```
-{
-  id: INT
-  job_candidate_id: INT (FK referring to id in job candidates)
-  start_date_month: INT
-  start_date_year: INT
-  end_date_month: INT
-  end_date_year: INT
-  job_title: STRING
-  company_name: STRING
-  city: STRING
-  state: STRING
-  zip_code: STRING
-  country: STRING
-  job_description: STRING
-}
-```
-
-#### COMPANY USERS
-
----
-
-```
-{
-  id: INT
-  user_id: INT (FK referring to id in users)
-  company_id: INT (FK referring to id in companies)
-  roles: STRING
-}
-```
-
-#### REVIEWS
-
----
-
-```
-{
-  id: INT
-  user_id: INT (FK referring to id in users)
-  job_candidate_id: INT (FK referring to id in job candidates)
-  rating: INT
-  comment: STRING
-  review_date: TIMESTAMP (default to now)
-
-}
-```
-
-#### OPEN POSITIONS
-
----
-
-```
-{
-  id: INT
-  company_id: INT (FK referring to id in companies)
+  user_id: STRING (fk: firebase_uuid in users)
   name: STRING
-
+  email: STRING
+  title: STRING
+  industry: STRING
+  education: STRING
+  skills: STRING
+  years_of_experience: INT
+  languages: STRING
+  certifications: STRING
+  volunteer: STRING
+  publications: STRING
+  bio: BOOLEAN
+  picture: BOOLEAN
+  posts: BOOLEAN
+  linkedin_url: STRING
 }
 ```
 
-#### APPLICANTS
+#### addressee_types
+
+---
+
+```
+{
+
+  id: INT
+  user_id: STRING (fk: firebase_uuid in users)
+  addressee_type: STRING
+}
+```
+
+#### rules
 
 ---
 
 ```
 {
   id: INT
-  open_position_id: INT (FK referring to id in open positions)
-  job_candidate_id: INT (FK referring to id in job candidates)
+  user_id: STRING (fk: firebase_uuid in users)
+  rule: JSON
+  addressee_id: INT (fk: id on addressee_types table)
+}
+```
 
+#### addressee_contacts
+
+---
+
+```
+{
+  id: INT
+  user_id: STRING (fk: firebase_uuid in users)
+  addressee_id: INT (fk: id on addressee_types table)
+  contact_id: INT (fk: id on contacts table)
+}
+```
+
+#### email_history
+
+---
+
+```
+{
+  id: INT
+  user_id: STRING (fk: firebase_uuid in users)
+  candidate_id: INT (fk: id on candidates table)
+  contact_id: INT (fk: id on contacts table)
+  send_date: TIMESTAMP
+  personalized_message: TEXT
 }
 ```
 

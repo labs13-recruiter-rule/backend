@@ -1,7 +1,7 @@
 const db = require('../../data/dbConfig');
 
 function getContactsByUser(id) {
-  return db('userContacts').where({ userContactBelongsTo: id });
+  return db('userContacts').where({ user_id: id });
 }
 
 function getContactByContactID(id) {

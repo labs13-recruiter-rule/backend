@@ -2,10 +2,11 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('userContacts', tbl => {
     tbl.increments();
     tbl
-      .string('userContactBelongsTo')
+      .string('user_id')
       .references('firebase_uuid')
       .inTable('users')
-      .notNullable();
+      .notNullable(); // foreign key referencing firebase_uuid in users table
+
     tbl.string('name').notNullable();
     tbl.string('email').notNullable();
   });
