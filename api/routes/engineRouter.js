@@ -2,25 +2,26 @@ const express = require('express');
 const { Engine } = require('json-rules-engine');
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.senderEMAIL,
-    pass: process.env.senderPASSWORD,
-  },
-});
-
 const router = express.Router();
 
 const receivers = 'omaro@me.com';
-const mailOptions = {
-  from: 'recruiterrule@gmail.com',
-  to: receivers,
-  subject: 'dont want this email again v1',
-  text: 'That was easy!',
-};
 
 router.post('/', (req, res) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.senderEMAIL,
+      pass: process.env.senderPASSWORD,
+    },
+  });
+  const candidate = req.body;
+
+  const mailOptions = {
+    from: 'recruiterrule@gmail.com',
+    to: receivers,
+    subject: 'dont want this email again v1',
+    text: 'still need to figure out passing a candidate in here without getting obj Obj',
+  };
   const engine = new Engine();
 
   const jsCandidateRule = {

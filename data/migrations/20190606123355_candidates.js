@@ -5,10 +5,6 @@ exports.up = function(knex, Promise) {
       .string('user_id')
       .references('firebase_uuid')
       .inTable('users');
-    tbl
-      .integer('contact_id')
-      .references('id')
-      .inTable('userContacts');
     tbl.string('name').notNullable();
     tbl.string('email').notNullable();
     tbl.string('title');
@@ -23,6 +19,7 @@ exports.up = function(knex, Promise) {
     tbl.boolean('bio');
     tbl.boolean('picture');
     tbl.boolean('posts');
+    tbl.string('linkedin_url');
   });
 };
 

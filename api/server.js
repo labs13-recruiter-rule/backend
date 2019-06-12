@@ -10,6 +10,7 @@ const authRouter = require('./routes/registerRouter');
 const candidatesRouter = require('./routes/candidatesRouter');
 const mailerRouter = require('./routes/mailer');
 const engineRouter = require('./routes/engineRouter');
+const enginesRouter = require('./routes/enginesRouter');
 
 // Server invokation
 const server = express();
@@ -29,6 +30,7 @@ server.use('/auth', authRouter);
 server.use('/candidates', candidatesRouter);
 server.use('/mailer', mailerRouter);
 server.use('/engine', engineRouter);
+server.use('/engines', enginesRouter);
 
 server.get('/', (req, res) => {
   res.send(`<p>test, we're up and running! </p>`);
