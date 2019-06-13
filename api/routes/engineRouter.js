@@ -5,6 +5,7 @@ const { Engine, Rule } = require('json-rules-engine');
 const { sendFunc } = require('./mailerFunc');
 const userEngines = require('../models/engines-model');
 const { decodeHeader } = require('../utils/firebaseAuth');
+const engineAuthMW = require('../utils/engineAuthMW');
 
 const router = express.Router();
 
@@ -202,7 +203,7 @@ router.get('/', decodeHeader, async (req, res) => {
   }
 });
 
-router.get('/:engineid', decodeHeader, async (req, res) => {
+router.get('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
   //
   const { engineid } = req.params;
   try {
@@ -251,7 +252,7 @@ router.post('/', decodeHeader, async (req, res) => {
   }
 });
 
-router.put('/:engineid', decodeHeader, async (req, res) => {
+router.put('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
   const { engineid } = req.params;
   const engineModifications = req.body;
 
@@ -282,7 +283,7 @@ router.put('/:engineid', decodeHeader, async (req, res) => {
   }
 });
 
-router.delete('/:engineid', decodeHeader, async (req, res) => {
+router.delete('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
   const { engineid } = req.params;
   try {
     const engineToDelete = await userEngines.deleteUserEngine(engineid);
