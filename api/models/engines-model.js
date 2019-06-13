@@ -43,10 +43,33 @@ async function modifyUserEngine(id, engine) {
   }
 }
 
+async function deleteUserEngine(id) {
+  try {
+    const engineToDelete = await getEnginesById(id);
+    if (engineToDelete) {
+      try {
+        const deletedEngine = await db('engines')
+          .where({ id })
+          .first()
+          .delete();
+
+        return deletedEngine;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getEngines,
   getEnginesById,
   addEngineToUser,
   getEnginesByUUID,
   modifyUserEngine,
+  deleteUserEngine,
 };

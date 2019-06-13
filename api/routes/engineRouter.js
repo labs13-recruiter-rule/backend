@@ -217,6 +217,9 @@ router.get('/:engineid', decodeHeader, async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res
+      .status(500)
+      .json({ message: 'Error attemtping to access engine', error });
   }
 });
 
@@ -276,6 +279,25 @@ router.put('/:engineid', decodeHeader, async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: 'Error updating engine', error });
+  }
+});
+
+router.delete('/:engineid', decodeHeader, async (req, res) => {
+  const { engineid } = req.params;
+  try {
+    const engineToDelete = await userEngines.deleteUserEngine(engineid);
+    if (!engineToDelete) {
+      res.status(404).json({
+        message:
+          'There was an error deleting your engine. Please ensure the engine you are attempting to delete is an existing engine before trying again.',
+      });
+    } else {
+      res
+        .status(200)
+        .json({ message: 'You have succesfully deleted your engine' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting your engine', error });
   }
 });
 
