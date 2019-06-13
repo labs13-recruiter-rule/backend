@@ -13,7 +13,7 @@ function getContactByContactID(id) {
 async function addContactToUserContacts(id, contact) {
   contact = {
     ...contact,
-    userContactBelongsTo: id,
+    user_id: id,
   };
 
   const [newContactID] = await db('userContacts').insert(contact, 'id');
