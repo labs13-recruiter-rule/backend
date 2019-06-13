@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
   // console.log(jsCandString);
   // const restoredRule = new Rule(jsCandString);
   // console.log(restoredRule, 'rule restored');
-  // console.log(jsCand, 'rule jsCand');
+  console.log(jsCandidateRule, 'rule jsCand');
   // engine.addRule(jsCandidateRule);
 
   engine.addRule(jsCandidateRule);
@@ -142,7 +142,7 @@ router.get('/getRule/:id', decodeHeader, async (req, res) => {
   }
 });
 
-router.get('/useRule/:id', decodeHeader, async (req, res) => {
+router.post('/useRule/:id', decodeHeader, async (req, res) => {
   // remember to add in engineAuthMW so
   // only engine creators can access their engines
   const { id } = req.params;
@@ -156,15 +156,21 @@ router.get('/useRule/:id', decodeHeader, async (req, res) => {
       const engine = new Engine();
 
       const restoredRule = new Rule(engineToUse);
+      console.log(restoredRule);
       engine.addRule(restoredRule);
 
       //
       engine
         .run(candidate)
         .then(function(events) {
-          console.log('good, sent');
+          console.log('then event hit');
 
-          events.map(event => eval(event.params.sendFunc));
+          events.map(event => {
+            if (event.type === 'email') {
+              console.log('if statement in event.type, hit');
+              sendFunc(event.params.contact, candidate);
+            }
+          });
         })
         .catch(err => {
           console.log('eng catch no work', err);

@@ -1,6 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('rules', table => {
     table.increments();
+    // tbl engine id
     table
       .string('user_id')
       .references('firebase_uuid')
