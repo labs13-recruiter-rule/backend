@@ -8,7 +8,7 @@ const { decodeHeader } = require('../utils/firebaseAuth');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/noUse', (req, res) => {
   const engine = new Engine();
   const { candidate } = req.body;
   // const mailOptions = canSend => {
@@ -180,6 +180,102 @@ router.post('/useRule/:id', decodeHeader, async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+});
+
+router.get('/', decodeHeader, async (req, res) => {
+  // get all engines for user logged in
+  const { firebase_uuid } = req.headers.user;
+
+  try {
+    const engines = await userEngines.getEnginesByUUID(firebase_uuid);
+    if (engines.length > 0) {
+      res.status(200).json(engines);
+    } else {
+      res.status(404).json({
+        message:
+          'No engines found for this user. Please create an engine before trying again.',
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'DB Error retrieving engines', error });
+  }
+});
+
+router.get('/:engineid', decodeHeader, async (req, res) => {
+  //
+  const { engineid } = req.params;
+  try {
+    const specificEngine = await userEngines.getEnginesById(engineid);
+    if (specificEngine) {
+      res.status(200).json(specificEngine);
+    } else {
+      res.status(404).json({
+        message:
+          'Could not find an engine with that ID. Please ensure the engine you are attempting to access exists.',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post('/', decodeHeader, async (req, res) => {
+  // Endpoint for adding an engine to a user's engine list in DB
+
+  const engineReceived = req.body;
+
+  if (engineReceived.engine_name && engineReceived) {
+    const engine = {
+      // come back and replace vv below vv with spread operator once starting work with addressee types
+      engine_name: engineReceived.engine_name,
+      user_id: req.headers.user.firebase_uuid,
+    };
+    try {
+      const newEngine = await userEngines.addEngineToUser(engine);
+      res.status(201).json({
+        message: 'Your new engine was added succesfully!',
+        newEngine,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error', error });
+    }
+  } else {
+    res.status(500).json({
+      message: `There was an error saving your engine. Please ensure you provided a name for your engine.`,
+    });
+  }
+});
+
+router.put('/:engineid', decodeHeader, async (req, res) => {
+  const { engineid } = req.params;
+  const engineModifications = req.body;
+
+  try {
+    const modifyEngine = await userEngines.modifyUserEngine(
+      engineid,
+      engineModifications,
+    );
+
+    if (!modifyEngine) {
+      res.status(404).json({
+        message:
+          'There was an error updating your engine. Please ensure you are trying to update an existing engine.',
+      });
+    } else {
+      try {
+        const modifiedEngineResult = await userEngines.getEnginesById(engineid);
+        res.status(200).json({
+          message: 'You have succesfully updated your engine!',
+          modifiedEngineResult,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating engine', error });
   }
 });
 

@@ -19,3 +19,5 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists('rules');
 };
+
+// 20190611174444_rules.js
