@@ -1,6 +1,6 @@
 const express = require('express');
 const Users = require('../models/users-model');
-const { decodeHeader, decodeBody } = require('../utils/firebaseAuth');
+const { decodeBody } = require('../utils/firebaseAuth');
 
 const router = express.Router();
 

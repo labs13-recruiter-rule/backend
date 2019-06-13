@@ -9,7 +9,6 @@ const { decodeHeader } = require('../utils/firebaseAuth');
 const engineAuthMW = require('../utils/engineAuthMW');
 
 // invokations and declarations
-
 const router = express.Router({ mergeParams: true });
 // this endpoint will look like /engines/engineID/rules
 

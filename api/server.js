@@ -26,8 +26,8 @@ server.use(helmet());
 // ** Route usage **
 
 // Engine
-server.use('/engines', engineRouter);
-server.use('/engines/:engineid/rules', rulesRouter);
+server.use('/engines', engineRouter); // engines belonging to users
+server.use('/engines/:engineid/rules', rulesRouter); // rules associated with engines
 // User
 server.use('/users', usersRouter); // users
 server.use('/users/:userid/contacts', userContactsRouter); // contacts for each user

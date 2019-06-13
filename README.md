@@ -6,7 +6,7 @@
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [Heroku](https://recruiter-back-end.herokuapp.com/) <br>
 
 ## 1️⃣ Getting started
 
@@ -18,6 +18,7 @@ To get the server running locally:
 - **yarn install** to install all required dependencies
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
+- **yarn lint (--fix)** to run code linter
 
 ### Backend framework goes here
 
@@ -50,6 +51,26 @@ To get the server running locally:
 | POST   | `/users/:userid/contacts`     |     | Adds a contact to a user. Needs email and name.            |
 | PUT    | `/users/:userid/contacts/:id` |     | Updates contact by contact id. Returns updated contact     |
 | DELETE | `/users/:userid/contacts/:id` |     | Deletes contact by contact id. Returns entire contact list |
+
+### User Engine Routes
+
+| Method | Endpoint              |     | Description                                            |
+| ------ | --------------------- | --- | ------------------------------------------------------ |
+| GET    | `/engines/`           |     | Returns engines for user logged in                     |
+| GET    | `/engines/:engineid/` |     | Returns specific engine for that user.                 |
+| POST   | `/engines/`           |     | Adds an engine to a user. Takes engine_name as string. |
+| PUT    | `/engines/:engineid/` |     | Updates engine by engine id. Returns updated engine    |
+| DELETE | `/engines/:engineid`  |     | Deletes engine by engine id. Returns success message   |
+
+### User Engine Rule Routes
+
+| Method | Endpoint                            |     | Description                                                             |
+| ------ | ----------------------------------- | --- | ----------------------------------------------------------------------- |
+| GET    | `/engines/:engineid/rules/`         |     | Returns rules for that engine                                           |
+| GET    | `/engines/:engineid/rules/:ruleid/` |     | Returns specific rule for that engine.                                  |
+| POST   | `/engines/:engineid/rules/`         |     | Adds a rule to a user's engine. Takes rule(JSON) and addressee_id(INT). |
+| PUT    | `/engines/:engineid/rules/:ruleid/` |     | Updates rule by rule id. Returns updated rule                           |
+| DELETE | `/engines/:engineid/rules/:ruleid/` |     | Deletes rule by rule id. Returns success message                        |
 
 #### EXAMPLE Organization Routes
 
@@ -129,6 +150,18 @@ To get the server running locally:
 }
 ```
 
+#### engines
+
+---
+
+```
+{
+  id: INT
+  user_id: STRING (fk: firebase_uuid in users table)
+  engine_name: STRING
+}
+```
+
 #### rules
 
 ---
@@ -136,7 +169,8 @@ To get the server running locally:
 ```
 {
   id: INT
-  user_id: STRING (fk: firebase_uuid in users)
+  user_id: STRING (fk: firebase_uuid in users table)
+  engine_id: INT (fk: id in engines table)
   rule: JSON
   addressee_id: INT (fk: id on addressee_types table)
 }

@@ -9,6 +9,8 @@ const engineAuthMW = require('../utils/engineAuthMW');
 
 const router = express.Router();
 
+// ***** START rule engine implementation playground ***** //
+
 router.post('/noUse', (req, res) => {
   const engine = new Engine();
   const { candidate } = req.body;
@@ -183,6 +185,8 @@ router.post('/useRule/:id', decodeHeader, async (req, res) => {
     res.status(500).json({ message: error });
   }
 });
+
+// ***** END rule engine implementation playground ***** //
 
 router.get('/', decodeHeader, async (req, res) => {
   // get all engines for user logged in
