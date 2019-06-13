@@ -1,5 +1,7 @@
 const express = require('express');
 
+const { decodeHeader } = require('../utils/firebaseAuth');
+
 const router = express.Router();
 const addresseeContacts = require('../models/addressee-contacts-model');
 

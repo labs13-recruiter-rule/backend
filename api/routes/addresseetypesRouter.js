@@ -1,4 +1,5 @@
 const express = require('express');
+const { decodeHeader } = require('../utils/firebaseAuth');
 
 const router = express.Router();
 const addresseeTypes = require('../models/addressee-types-model');
@@ -35,11 +36,13 @@ router.get('/:addressee_id', decodeHeader, async (req, res) => {
   addresseeTypes
     .getAddresseeTypeById(addressee_id, uuid)
     .then(addressee_type => {
-      if (!addressee_type) {
+      if (addressee_type) {
+        res.status(200).json(addressee_type);
+      } else {
         res
           .status(404)
           .json({ message: 'Sorry, the contact group was not found.' });
-      } else res.status(200).json(addressee_type);
+      }
     })
     .catch(error => {
       res.status(500).json({
@@ -75,11 +78,9 @@ router.put('/:addressee_id', decodeHeader, async (req, res) => {
   addresseeTypes
     .updateAddresseeType(addressee_id, uuid, updatedAddressee_type)
     .then(updatedAddresseeType => {
-      const updatedAddressee = addresseeTypes.getAddresseeTypeById(
-        addressee_id,
-        uuid,
-      );
-      res.status(200).json(updatedAddressee, updatedAddresseeType);
+      res.status(200).json({
+        message: 'Contact group successfully updated.',
+      });
     })
     .catch(error => {
       res.status(500).json({
@@ -99,7 +100,6 @@ router.delete('/:addressee_id', decodeHeader, async (req, res) => {
     .then(deletedAddresseeType => {
       res.status(200).json({
         message: 'Contact Group successfully deleted.',
-        deletedAddresseeType,
       });
     })
     .catch(error => {

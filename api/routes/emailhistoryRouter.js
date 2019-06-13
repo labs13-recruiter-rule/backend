@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { decodeHeader } = require('../utils/firebaseAuth');
 const router = express.Router();
 const emailHistory = require('../models/email-history-model');
 

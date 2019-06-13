@@ -10,8 +10,8 @@ async function getAddresseeTypeById(addressee_id, uuid) {
 }
 
 async function addAddresseeType(addressee_type, uuid) {
-  const addressee_type = { ...addressee_type, user_id: uuid };
-  return db('addressee_types').insert(addressee_type, 'id');
+  const new_addressee_type = { ...addressee_type, user_id: uuid };
+  return db('addressee_types').insert(new_addressee_type, 'id');
 }
 
 async function updateAddresseeType(addressee_id, uuid, updatedAddressee_type) {

@@ -72,8 +72,8 @@ async function updateAddresseeContact(
 }
 
 async function addAddresseeContact(uuid, newAddresseeContact) {
-  const newAddresseeContact = { ...newAddresseeContact, user_id: uuid };
-  return db('addressee_contacts').insert(newAddresseeContact, 'id');
+  const AddresseeContact = { ...newAddresseeContact, user_id: uuid };
+  return db('addressee_contacts').insert(AddresseeContact, 'id');
 }
 
 async function deleteAddresseeContact(addressee_contact_id, uuid) {

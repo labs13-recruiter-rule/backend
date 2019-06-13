@@ -1,10 +1,11 @@
 const express = require('express');
+const { decodeHeader } = require('../utils/firebaseAuth');
 
 const router = express.Router();
 
 const Candidates = require('../models/candidates-model');
 
-router.get('/', async (req, res) => {
+router.get('/', decodeHeader, async (req, res) => {
   try {
     const candidates = await Candidates.getCandidates();
     if (candidates.length > 0) {
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', decodeHeader, async (req, res) => {
   const { id } = req.params;
   try {
     const candidate = await Candidates.getCandidatesById(id);
@@ -31,7 +32,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', decodeHeader, async (req, res) => {
   /* Candidates.addCandidate(req.body).then(candidate => {
     res.status(201).json(candidate)}).catch(error => {
     return res.status(500).json(error);
@@ -46,7 +47,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', decodeHeader, async (req, res) => {
   Candidates.updateCandidate(req.params.id, req.body)
     .then(candidate => {
       res.status(200).json({ message: 'Successfully updated!', candidate });
@@ -59,7 +60,7 @@ router.put('/:id', async (req, res) => {
     });
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', decodeHeader, async (req, res) => {
   Candidates.deleteCandidate(req.params.id)
     .then(deleted => {
       return res.status(200).json({

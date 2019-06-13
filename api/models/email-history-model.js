@@ -48,8 +48,8 @@ async function getAllEmailsByContact(contact_id, uuid) {
 }
 
 async function addToEmailHistory(uuid, newEmail) {
-  const newEmail = { ...newEmail, user_id: uuid };
-  return db('email_history').insert(newEmail, 'id');
+  const newEmailRecord = { ...newEmail, user_id: uuid };
+  return db('email_history').insert(newEmailRecord, 'id');
 }
 
 async function countEmailsByCandidate(candidate_id, uuid) {
