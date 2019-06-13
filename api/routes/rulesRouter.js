@@ -42,9 +42,10 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
   // COME BACK AND IMPLEMENT RULE JSON FEATURES
   const { engineid } = req.params;
   const rule = {
-    ...req.body,
     user_id: req.headers.user.firebase_uuid,
     engine_id: engineid,
+    rule: req.body.rule,
+    addressee_id: req.body.addressee_id,
   };
   try {
     const addedRule = await userEngineRules.addRuletoEngine(engineid, rule);
@@ -84,4 +85,65 @@ router.get('/:ruleid', decodeHeader, async (req, res) => {
   }
 });
 
+router.put('/:ruleid', decodeHeader, engineAuthMW, async (req, res) => {
+  const { engineid, ruleid } = req.params;
+  const ruleModifications = req.body;
+  // COME BACK AND IMPLEMENT RULE JSON FEATURES
+  try {
+    const modifyRule = await userEngineRules.modifyEngineRule(
+      engineid,
+      ruleid,
+      ruleModifications,
+    );
+
+    if (!modifyRule) {
+      res.status(404).json({
+        message:
+          'There was an error updating your rule. Please ensure you are trying to update an existing rule on an existing engine.',
+      });
+    } else {
+      try {
+        const modifiedRuleResult = await userEngineRules.getRuleByRuleId(
+          engineid,
+          ruleid,
+        );
+        res.status(200).json({
+          message: 'You have succesfully updated your rule!',
+          modifiedRuleResult,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating rule', error });
+  }
+});
+
+// COME BACK AND IMPLEMENT RULE JSON FEATURES
+// COME BACK AND IMPLEMENT RULE JSON FEATURES
+// COME BACK AND IMPLEMENT RULE JSON FEATURES
+
+router.delete('/:ruleid', decodeHeader, engineAuthMW, async (req, res) => {
+  //
+  const { engineid, ruleid } = req.params;
+  try {
+    const ruleToDelete = await userEngineRules.deleteEngineRule(
+      engineid,
+      ruleid,
+    );
+    if (!ruleToDelete) {
+      res.status(404).json({
+        message:
+          'There was an error deleting your rule. Please ensure the rule you are attempting to delete is an existing rule on an existing engine before trying again.',
+      });
+    } else {
+      res
+        .status(200)
+        .json({ message: 'You have succesfully deleted your rule' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting your rule', error });
+  }
+});
 module.exports = router;

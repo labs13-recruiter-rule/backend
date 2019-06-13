@@ -19,8 +19,53 @@ async function addRuletoEngine(engine_id, rule) {
   return addedRuleInfo;
 }
 
+async function modifyEngineRule(engine_id, id, rule) {
+  try {
+    const ruleToModify = await getRuleByRuleId(engine_id, id);
+    if (ruleToModify) {
+      try {
+        const modifiedRule = await db('rules')
+          .where({ engine_id, id })
+          .first()
+          .update(rule);
+        return modifiedRule;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deleteEngineRule(engine_id, id) {
+  try {
+    const ruleToDelete = await getRuleByRuleId(engine_id, id);
+    if (ruleToDelete) {
+      try {
+        const deletedRule = await db('rules')
+          .where({ engine_id, id })
+          .first()
+          .delete();
+
+        return deletedRule;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getRulesByEngineId,
   getRuleByRuleId,
   addRuletoEngine,
+  modifyEngineRule,
+  deleteEngineRule,
 };
