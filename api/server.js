@@ -9,6 +9,8 @@ const userContactsRouter = require('./routes/userContacts-router');
 const authRouter = require('./routes/registerRouter');
 const candidatesRouter = require('./routes/candidatesRouter');
 const mailerRouter = require('./routes/mailer');
+const engineRouter = require('./routes/engineRouter');
+// const enginesRouter = require('./routes/enginesRouter');
 const emailhistoryRouter = require('./routes/emailhistoryRouter');
 const addresseetypesRouter = require('./routes/addresseetypesRouter');
 const addresseeContactsRouter = require('./routes/addresseeContactsRouter');
@@ -23,6 +25,8 @@ server.use(helmet());
 
 // Route usage
 
+server.use('/engine', engineRouter);
+// server.use('/engines', enginesRouter);
 server.use('/users', usersRouter); // users
 server.use('/users/:userid/contacts', userContactsRouter); // contacts for each user
 server.use('/auth', authRouter); // authentication
