@@ -10,7 +10,6 @@ const authRouter = require('./routes/registerRouter');
 const candidatesRouter = require('./routes/candidatesRouter');
 const mailerRouter = require('./routes/mailer');
 const engineRouter = require('./routes/engineRouter');
-// const enginesRouter = require('./routes/enginesRouter');
 const rulesRouter = require('./routes/rulesRouter');
 const emailhistoryRouter = require('./routes/emailhistoryRouter');
 const addresseetypesRouter = require('./routes/addresseetypesRouter');
@@ -24,14 +23,16 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 
-// Route usage
+// ** Route usage **
 
+// Engine
 server.use('/engines', engineRouter);
 server.use('/engines/:engineid/rules', rulesRouter);
-// server.use('/engines', enginesRouter);
+// User
 server.use('/users', usersRouter); // users
 server.use('/users/:userid/contacts', userContactsRouter); // contacts for each user
 server.use('/auth', authRouter); // authentication
+// User extras
 server.use('/candidates', candidatesRouter); // candidates
 server.use('/mailer', mailerRouter); // sending emails
 server.use('/emailhistory', emailhistoryRouter); // email history

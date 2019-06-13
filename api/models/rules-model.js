@@ -1,25 +1,26 @@
 const db = require('../../data/dbConfig');
 
-async function getEngines() {
-  return db('rules');
+function getRulesByEngineId(engine_id) {
+  return db('rules').where({ engine_id });
 }
 
-function getEnginesById(id) {
+function getRuleByRuleId(engine_id, id) {
+  // get by both to ensure no accessing of rules outside of created engine
   return db('rules')
-    .where({ id })
+    .where({ engine_id, id })
     .first();
-
-  //   .join('roles', 'rules_headshot.send_to', 'roles.id')
 }
 
-async function addEngineToUser(engine) {
-  const [addedEngineID] = await db('rules').insert(engine, 'id');
-  const engineInfo = await getEnginesById(addedEngineID);
-  return engineInfo;
+async function addRuletoEngine(engine_id, rule) {
+  //
+  const [addedRuleID] = await db('rules').insert(rule, 'id');
+  console.log(addedRuleID);
+  const addedRuleInfo = await getRuleByRuleId(engine_id, addedRuleID);
+  return addedRuleInfo;
 }
 
 module.exports = {
-  getEngines,
-  getEnginesById,
-  addEngineToUser,
+  getRulesByEngineId,
+  getRuleByRuleId,
+  addRuletoEngine,
 };

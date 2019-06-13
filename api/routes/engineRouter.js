@@ -203,27 +203,6 @@ router.get('/', decodeHeader, async (req, res) => {
   }
 });
 
-router.get('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
-  //
-  const { engineid } = req.params;
-  try {
-    const specificEngine = await userEngines.getEnginesById(engineid);
-    if (specificEngine) {
-      res.status(200).json(specificEngine);
-    } else {
-      res.status(404).json({
-        message:
-          'Could not find an engine with that ID. Please ensure the engine you are attempting to access exists.',
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ message: 'Error attemtping to access engine', error });
-  }
-});
-
 router.post('/', decodeHeader, async (req, res) => {
   // Endpoint for adding an engine to a user's engine list in DB
 
@@ -249,6 +228,27 @@ router.post('/', decodeHeader, async (req, res) => {
     res.status(500).json({
       message: `There was an error saving your engine. Please ensure you provided a name for your engine.`,
     });
+  }
+});
+
+router.get('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
+  //
+  const { engineid } = req.params;
+  try {
+    const specificEngine = await userEngines.getEnginesById(engineid);
+    if (specificEngine) {
+      res.status(200).json(specificEngine);
+    } else {
+      res.status(404).json({
+        message:
+          'Could not find an engine with that ID. Please ensure the engine you are attempting to access exists.',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: 'Error attemtping to access engine', error });
   }
 });
 
