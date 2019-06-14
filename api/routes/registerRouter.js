@@ -1,6 +1,6 @@
 const express = require('express');
 const Users = require('../models/users-model');
-const { decodeHeader, decodeBody } = require('../utils/firebaseAuth');
+const { decodeBody } = require('../utils/firebaseAuth');
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.post('/register', decodeBody, async (req, res) => {
   try {
     const addNewUser = await Users.addUser(user);
     console.log('from addNewUser', addNewUser);
-    res.status(200).json({
+    res.status(201).json({
       message: `user was successfully added to database.`,
       id: addNewUser[0], // returns id on SQL table
     });

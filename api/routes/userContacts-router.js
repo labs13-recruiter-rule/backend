@@ -1,7 +1,7 @@
 const express = require('express');
 const userContacts = require('../models/userContacts-model');
 const contactAuthMW = require('../utils/contactAuthMW');
-const { decodeBody, decodeHeader } = require('../utils/firebaseAuth');
+const { decodeHeader } = require('../utils/firebaseAuth');
 
 // mergeParams allows us to grab URL params from other/previously defined routes
 const router = express.Router({ mergeParams: true });
