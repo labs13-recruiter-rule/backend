@@ -174,4 +174,25 @@ router.delete('/:email_id', decodeHeader, async (req, res) => {
     });
 });
 
+// UPDATE EMAIL BY EMAIL ID
+
+router.update('/update/:email_id', decodeHeader, async (req, res) => {
+  const uuid = req.headers.user.firebase_uuid;
+  const { email_id } = req.params;
+  emailHistory
+    .updateEmailByEmailId(email_id, uuid)
+    .then(updated => {
+      res.status(200).json({
+        message: 'Your email was successfully updated.',
+        updated,
+      });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'There was an error updating your email.',
+        error,
+      });
+    });
+});
+
 module.exports = router;
