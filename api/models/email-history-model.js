@@ -78,6 +78,15 @@ async function countTotalEmailsByUserId(uuid) {
     });
 }
 
+async function updateEmailByEmailId(email_id, uuid) {
+  return db('email_history')
+    .where({
+      id: email_id,
+      user_id: uuid,
+    })
+    .update();
+}
+
 module.exports = {
   countEmailsByCandidate,
   countEmailsByContact,
