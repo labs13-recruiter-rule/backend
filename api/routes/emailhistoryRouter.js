@@ -176,7 +176,7 @@ router.delete('/:email_id', decodeHeader, async (req, res) => {
 
 // UPDATE EMAIL BY EMAIL ID
 
-router.update('/update/:email_id', decodeHeader, async (req, res) => {
+router.put('/update/:email_id', decodeHeader, async (req, res) => {
   const uuid = req.headers.user.firebase_uuid;
   const { email_id } = req.params;
   emailHistory
