@@ -3,14 +3,15 @@ const userContacts = require('../models/userContacts-model');
 const contactAuthMW = require('../utils/contactAuthMW');
 const { decodeHeader } = require('../utils/firebaseAuth');
 
-// mergeParams allows us to grab URL params from other/previously defined routes
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
+// // mergeParams allows us to grab URL params from other/previously defined routes
+// const router = express.Router({ mergeParams: true });
 
-// endpoint /users/:id/contacts returns all contacts belonging to that user
+// endpoint /contacts returns all contacts belonging to that user
 router.get('/', decodeHeader, async (req, res) => {
-  const id = req.headers.user.firebase_uuid;
+  const uuid = req.headers.user.firebase_uuid;
   try {
-    const contacts = await userContacts.getContactsByUser(id);
+    const contacts = await userContacts.getContactsByUser(uuid);
 
     if (contacts.length > 0) {
       res.status(200).json(contacts);
@@ -26,13 +27,13 @@ router.get('/', decodeHeader, async (req, res) => {
 });
 
 router.post('/', decodeHeader, async (req, res) => {
-  const id = req.headers.user.firebase_uuid;
+  const uuid = req.headers.user.firebase_uuid;
   const { name, email } = req.body;
 
   if (name && email) {
     try {
       const newContact = await userContacts.addContactToUserContacts(
-        id,
+        uuid,
         req.body,
       );
 

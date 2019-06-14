@@ -56,8 +56,9 @@ router.get('/:addressee_id', decodeHeader, async (req, res) => {
 
 router.post('/', decodeHeader, async (req, res) => {
   const uuid = req.headers.user.firebase_uuid;
+  const addressee_type = req.body;
   addresseeTypes
-    .addAddresseeType(req.body, uuid)
+    .addAddresseeType(addressee_type, uuid)
     .then(newAddresseeType => {
       res.status(201).json(newAddresseeType);
     })
