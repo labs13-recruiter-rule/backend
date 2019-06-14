@@ -1,7 +1,7 @@
 const db = require('../../data/dbConfig');
 
-function getContactsByUser(id) {
-  return db('userContacts').where({ user_id: id });
+function getContactsByUser(uuid) {
+  return db('userContacts').where({ user_id: uuid });
 }
 
 function getContactByContactID(id) {
@@ -10,10 +10,10 @@ function getContactByContactID(id) {
     .first();
 }
 
-async function addContactToUserContacts(id, contact) {
+async function addContactToUserContacts(uuid, contact) {
   contact = {
     ...contact,
-    user_id: id,
+    user_id: uuid,
   };
 
   const [newContactID] = await db('userContacts').insert(contact, 'id');

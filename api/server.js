@@ -30,7 +30,7 @@ server.use('/engines', engineRouter); // engines belonging to users
 server.use('/engines/:engineid/rules', rulesRouter); // rules associated with engines
 // User
 server.use('/users', usersRouter); // users
-server.use('/users/:userid/contacts', userContactsRouter); // contacts for each user
+server.use('/contacts', userContactsRouter); // contacts for each user
 server.use('/auth', authRouter); // authentication
 // User extras
 server.use('/candidates', candidatesRouter); // candidates
