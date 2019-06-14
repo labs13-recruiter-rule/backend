@@ -152,4 +152,26 @@ router.get('/emailtotal', decodeHeader, async (req, res) => {
     });
 });
 
+// DELETE EMAIL BY EMAIL ID
+
+router.delete('/:email_id', decodeHeader, async (req, res) => {
+  const uuid = req.headers.user.firebase_uuid;
+  const { email_id } = req.params;
+  emailHistory
+    .deleteEmailByEmailId(email_id, uuid)
+    .then(deleted => {
+      res.status(200).json({
+        message: 'Your email was successfully deleted from the email history.',
+        deleted,
+      });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message:
+          'There was an error removing your email from the email history',
+        error,
+      });
+    });
+});
+
 module.exports = router;

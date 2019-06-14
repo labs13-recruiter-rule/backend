@@ -78,6 +78,15 @@ async function countTotalEmailsByUserId(uuid) {
     });
 }
 
+async function deleteEmailByEmailId(email_id, uuid) {
+  return db('email_history')
+    .where({
+      id: email_id,
+      user_id: uuid,
+    })
+    .del();
+}
+
 module.exports = {
   countEmailsByCandidate,
   countEmailsByContact,
@@ -87,4 +96,5 @@ module.exports = {
   getAllEmailsByCandidate,
   getByEmailId,
   addToEmailHistory,
+  deleteEmailByEmailId,
 };
