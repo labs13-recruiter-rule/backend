@@ -14,6 +14,7 @@ const rulesRouter = require('./routes/rulesRouter');
 const emailhistoryRouter = require('./routes/emailhistoryRouter');
 const addresseetypesRouter = require('./routes/addresseetypesRouter');
 const addresseeContactsRouter = require('./routes/addresseeContactsRouter');
+const enginesUseRouter = require('./routes/enginesUseRouter');
 
 // Server invocation
 const server = express();
@@ -28,6 +29,7 @@ server.use(helmet());
 // Engine
 server.use('/engines', engineRouter); // engines belonging to users
 server.use('/engines/:engineid/rules', rulesRouter); // rules associated with engines
+server.use('/engines/:engineid/use', enginesUseRouter);
 // User
 server.use('/users', usersRouter); // users
 server.use('/contacts', userContactsRouter); // contacts for each user

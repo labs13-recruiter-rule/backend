@@ -40,12 +40,15 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
   // add rule to engine
   // COME BACK AND IMPLEMENT RULE JSON FEATURES
   const { engineid } = req.params;
+  const specificRule = new Rule(req.body.rule);
+  const specificRuleJSON = specificRule.toJSON();
   const rule = {
     user_id: req.headers.user.firebase_uuid,
     engine_id: engineid,
-    rule: req.body.rule,
+    rule: specificRuleJSON,
     addressee_id: req.body.addressee_id,
   };
+  console.log('from reqbodyrule', req.body.rule);
   try {
     const addedRule = await userEngineRules.addRuletoEngine(engineid, rule);
     if (addedRule) {
