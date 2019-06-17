@@ -57,6 +57,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
           .catch(err => {
             console.log('engine had an error', err);
           });
+        // / Nah. gotta move this out of the if block and into the scope above it. easy fix.
       } else if (engineRules.length === 1) {
         // use rule
         console.log('only 1 rule');
