@@ -32,21 +32,22 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
 
       // Will be getting back multiple rules, so we must map over.
       // But, if it's only one, we can't map over. So.
-      if (engineRules.length > 0) {
-        // map
-        engineRules.map(rule => {
-          if (rule.rule) {
-            // console.log('from rr', rule.rule); // test works. only rules that aren't rull get logged
-            const ruleToUse = new Rule(rule.rule);
-            console.log('from new', ruleToUse);
-            engine.addRule(ruleToUse);
-          }
-        });
+      // if (engineRules.length > 0) {
+      // map
+      engineRules.map(rule => {
+        if (rule.rule) {
+          // console.log('from rr', rule.rule); // test works. only rules that aren't rull get logged
+          const ruleToUse = new Rule(rule.rule);
+          console.log('from new', ruleToUse);
+          engine.addRule(ruleToUse);
+        }
+      });
 
-        // so, rules should have been added in the function above. now invoke engine run here?
+      // so, rules should have been added in the function above. now invoke engine run here?
 
-        // / Nah. gotta move this out of the if block and into the scope above it. easy fix.
-      }
+      // / Nah. gotta move this out of the if block and into the scope above it. easy fix.
+      // nevermind. apparently i don't need to map over even if it's only length of 1, because it's still in an array. can't complain
+      // }
       // else if (engineRules.length === 1) {
       //   // use rule
       //   if (engineRules) {
