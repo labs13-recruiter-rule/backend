@@ -29,7 +29,7 @@ server.use(helmet());
 // Engine
 server.use('/engines', engineRouter); // engines belonging to users
 server.use('/engines/:engineid/rules', rulesRouter); // rules associated with engines
-server.use('/engines/:engineid/use', enginesUseRouter);
+server.use('/engines/:engineid/use', enginesUseRouter); // endpoint to run candidates through engines
 // User
 server.use('/users', usersRouter); // users
 server.use('/contacts', userContactsRouter); // contacts for each user
