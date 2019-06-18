@@ -4,7 +4,7 @@ const userContacts = require('../models/userContacts-model');
 async function grabContactUser(id) {
   const contact = await userContacts.getContactByContactID(id);
   if (contact) {
-    return contact.userContactBelongsTo;
+    return contact.user_id;
   }
 }
 
