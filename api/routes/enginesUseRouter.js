@@ -11,7 +11,7 @@ const engineAuthMW = require('../utils/engineAuthMW');
 // invoke
 const router = express.Router({ mergeParams: true });
 
-router.get('/', (req, res) => {
+router.get('/', decodeHeader, engineAuthMW, (req, res) => {
   const { engineid } = req.params;
   res.status(200).json({ message: engineid });
 });
@@ -32,7 +32,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
 
       // Will be getting back multiple rules, so we must map over.
       // But, if it's only one, we can't map over. So.
-      if (engineRules.length > 1) {
+      if (engineRules.length > 0) {
         // map
         engineRules.map(rule => {
           if (rule.rule) {
@@ -44,25 +44,32 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
         });
 
         // so, rules should have been added in the function above. now invoke engine run here?
-        engine
-          .run(candidate)
-          .then(function(events) {
-            events.map(event => {
-              if (event.type === 'email') {
-                console.log('if statement in engine event');
-                sendFunc(event.params.contact, candidate, req);
-              }
-            });
-          })
-          .catch(err => {
-            console.log('engine had an error', err);
-          });
-        // / Nah. gotta move this out of the if block and into the scope above it. easy fix.
-      } else if (engineRules.length === 1) {
-        // use rule
-        console.log('only 1 rule');
-      }
 
+        // / Nah. gotta move this out of the if block and into the scope above it. easy fix.
+      }
+      // else if (engineRules.length === 1) {
+      //   // use rule
+      //   if (engineRules) {
+      //     console.log('from engineRules', engineRules);
+      //     const ruleToUse = new Rule(engineRules.rule);
+      //     console.log('we have an engine rule, single', ruleToUse);
+      //     engine.addRule(ruleToUse);
+      //   }
+      //   console.log('only 1 rule');
+      // }
+      engine
+        .run(candidate)
+        .then(function(events) {
+          events.map(event => {
+            if (event.type === 'email') {
+              console.log('if statement in engine event');
+              sendFunc(event.params.contact, candidate, req);
+            }
+          });
+        })
+        .catch(err => {
+          console.log('engine had an error', err);
+        });
       res.status(200).json(engineRules.rule);
     } else {
       res.status(404).json({
