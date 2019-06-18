@@ -8,17 +8,17 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const mailOptions = (receivers, canSend) => {
+const mailOptions = (receivers, canSend, req) => {
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: 'New Candidate Found',
+    subject: `${req.headers.user.display_name} -- New Candidate!`,
     text: JSON.stringify(canSend),
   };
 };
 
 const sendFunc = (receivers, canSend, req, res) => {
-  transporter.sendMail(mailOptions(receivers, canSend), (error, info) => {
+  transporter.sendMail(mailOptions(receivers, canSend, req), (error, info) => {
     if (error) {
       // res.status(500).json({ message: 'Email error', error });
       console.log('Emailing error', error);
