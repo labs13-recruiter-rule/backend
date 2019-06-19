@@ -46,11 +46,11 @@ To get the server running locally:
 
 | Method | Endpoint                      |     | Description                                                |
 | ------ | ----------------------------- | --- | ---------------------------------------------------------- |
-| GET    | `/users/:userid/contacts`     |     | Returns contacts for that user                             |
-| GET    | `/users/:userid/contacts/:id` |     | Returns specific contact for that user.                    |
-| POST   | `/users/:userid/contacts`     |     | Adds a contact to a user. Needs email and name.            |
-| PUT    | `/users/:userid/contacts/:id` |     | Updates contact by contact id. Returns updated contact     |
-| DELETE | `/users/:userid/contacts/:id` |     | Deletes contact by contact id. Returns entire contact list |
+| GET    | `/users/contacts`     |     | Returns contacts for that user                             |
+| GET    | `/users/contacts/:id` |     | Returns specific contact for that user.                    |
+| POST   | `/users/contacts`     |     | Adds a contact to a user. Needs email and name.            |
+| PUT    | `/users/contacts/:id` |     | Updates contact by contact id. Returns updated contact     |
+| DELETE | `/users/contacts/:id` |     | Deletes contact by contact id. Returns entire contact list |
 
 ### User Engine Routes
 

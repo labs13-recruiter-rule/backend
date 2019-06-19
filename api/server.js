@@ -15,6 +15,7 @@ const emailhistoryRouter = require('./routes/emailhistoryRouter');
 const addresseetypesRouter = require('./routes/addresseetypesRouter');
 const addresseeContactsRouter = require('./routes/addresseeContactsRouter');
 const enginesUseRouter = require('./routes/enginesUseRouter');
+const stripeRouter = require('./routes/stripeRouter');
 
 // Server invocation
 const server = express();
@@ -40,7 +41,7 @@ server.use('/mailer', mailerRouter); // sending emails
 server.use('/emailhistory', emailhistoryRouter); // email history
 server.use('/groups', addresseetypesRouter); // addressee types, eg manager
 server.use('/groupcontacts', addresseeContactsRouter); // addressee_type contacts, eg individual people to classify as manager
-
+server.use('/charge', stripeRouter); // checkout route
 // Sanity Check
 server.get('/', (req, res) => {
   res.send(`<p>test, we're up and running! </p>`);

@@ -7,7 +7,7 @@ const addresseeContacts = require('../models/addressee-contacts-model');
 
 // GET ALL CONTACTS BY ADDRESSEE_ID -- all contacts belonging to a certain addressee type
 
-router.get('/:addressee_id', decodeHeader, async (req, res) => {
+router.get('/group/:addressee_id', decodeHeader, async (req, res) => {
   const uuid = req.headers.user.firebase_uuid;
   const { addressee_id } = req.params;
   addresseeContacts
@@ -22,7 +22,7 @@ router.get('/:addressee_id', decodeHeader, async (req, res) => {
 
 // GET ADDRESSEE_TYPE BY CONTACT_ID
 
-router.get('/:contact_id', decodeHeader, async (req, res) => {
+router.get('/contact/:contact_id', decodeHeader, async (req, res) => {
   const uuid = req.headers.user.firebase_uuid;
   const { contact_id } = req.params;
   addresseeContacts
