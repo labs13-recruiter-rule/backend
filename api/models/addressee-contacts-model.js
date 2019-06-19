@@ -48,14 +48,12 @@ async function getAllAddresseeContacts(uuid) {
   return db('addressee_contacts')
     .where({ user_id: uuid })
     .join(
-      'addressee_contacts',
+      'addressee_types',
       'addressee_contacts.addressee_id',
       '=',
       'addressee_types.id',
     )
-    .select('addressee_type')
-    .join('addressee_contacts.contact_id', '=', 'userContacts.id')
-    .select('*');
+    .select('addressee_type');
 }
 
 async function updateAddresseeContact(
