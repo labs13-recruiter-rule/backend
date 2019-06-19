@@ -71,7 +71,9 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
         .catch(err => {
           console.log('engine had an error', err);
         });
-      res.status(200).json(engineRules.rule);
+      res.status(200).json({
+        message: 'Candidate was ran through engine succesfully',
+      });
     } else {
       res.status(404).json({
         message:
