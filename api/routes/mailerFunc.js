@@ -17,39 +17,38 @@ transporter.use(
   }),
 );
 
-const mailOptions = (receivers, candidate, req) => {
-  return {
+let mailOptions;
+
+const sendFunc = (receivers, candidateObject, req, res) => {
+  mailOptions = {
     from: 'recruiterrule@gmail.com',
     to: receivers,
     subject: `${
       req.headers.user.display_name
     } has a new job candidate for you!`,
-    text: '',
+    text: 'Testing',
     template: 'index',
     context: {
       user_name: req.headers.user.display_name, // string -- name of recruiter sending candidate
       user_email: req.headers.user.email, // string -- email address associated with recruiter account
-      name: candidate.name, // string -- name of candidate
-      email: candidate.email, // string
-      title: candidate.title, // string
-      years_of_XP: candidate.years_of_experience, // integer
-      skills: candidate.skills, // string
-      education: candidate.education, // string
-      industry: candidate.industry, // string
-      languages: candidate.languages, // string
-      certifications: candidate.certifications, // string
-      volunteer: candidate.volunteer, // string
-      publications: candidate.publications, // string
-      bio: candidate.bio, // boolean
-      picture: candidate.picture, // boolean
-      posts: candidate.posts, // boolean
-      linkedin_url: candidate.linkedin_url, // string
+      name: candidateObject.name, // string -- name of candidate
+      email: candidateObject.email, // string
+      title: candidateObject.title, // string
+      years_of_XP: candidateObject.years_of_experience, // integer
+      skills: candidateObject.skills, // string
+      education: candidateObject.education, // string
+      industry: candidateObject.industry, // string
+      languages: candidateObject.languages, // string
+      certifications: candidateObject.certifications, // string
+      volunteer: candidateObject.volunteer, // string
+      publications: candidateObject.publications, // string
+      bio: candidateObject.bio, // boolean
+      picture: candidateObject.picture, // boolean
+      posts: candidateObject.posts, // boolean
+      linkedin_url: candidateObject.linkedin_url, // string
     },
   };
-};
-
-const sendFunc = (receivers, canSend, req, res) => {
-  transporter.sendMail(mailOptions(receivers, canSend, req), (error, info) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       // res.status(500).json({ message: 'Email error', error });
       console.log('Emailing error', error);
