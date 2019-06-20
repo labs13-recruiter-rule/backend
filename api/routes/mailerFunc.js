@@ -13,7 +13,7 @@ transporter.use(
   'compile',
   hbs({
     viewEngine: 'express-handlebars',
-    viewPath: './views/',
+    viewPath: './api/views/',
   }),
 );
 
