@@ -28,7 +28,7 @@ const mailOptions = (receivers, candidate, req) => {
     template: 'index',
     context: {
       user_name: req.headers.user.display_name, // string -- name of recruiter sending candidate
-      user_email: req.headers.user.email,
+      user_email: req.headers.user.email, // string -- email address associated with recruiter account
       name: candidate.name, // string -- name of candidate
       email: candidate.email, // string
       title: candidate.title, // string

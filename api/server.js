@@ -16,6 +16,7 @@ const addresseetypesRouter = require('./routes/addresseetypesRouter');
 const addresseeContactsRouter = require('./routes/addresseeContactsRouter');
 const enginesUseRouter = require('./routes/enginesUseRouter');
 const stripeRouter = require('./routes/stripeRouter');
+const mailer2Router = require('./routes/mailer');
 
 // Server invocation
 const server = express();
@@ -37,6 +38,7 @@ server.use('/contacts', userContactsRouter); // contacts for each user
 server.use('/auth', authRouter); // authentication
 // User extras
 server.use('/candidates', candidatesRouter); // candidates
+server.use('/mailertwo', mailer2Router);
 server.use('/mailer', mailerRouter); // sending emails
 server.use('/emailhistory', emailhistoryRouter); // email history
 server.use('/groups', addresseetypesRouter); // addressee types, eg manager
