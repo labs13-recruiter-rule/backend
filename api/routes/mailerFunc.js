@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-handlebars');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -8,12 +9,42 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const mailOptions = (receivers, canSend, req) => {
+transporter.use(
+  'compile',
+  hbs({
+    viewEngine: 'express-handlebars',
+    viewPath: './views/',
+  }),
+);
+
+const mailOptions = (receivers, candidate, req) => {
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: `${req.headers.user.display_name} -- New Candidate!`,
-    text: JSON.stringify(canSend),
+    subject: `${
+      req.headers.user.display_name
+    } has a new job candidate for you!`,
+    text: '',
+    template: 'index',
+    context: {
+      user_name: req.headers.user.display_name, // string -- name of recruiter sending candidate
+      user_email: req.headers.user.email,
+      name: candidate.name, // string -- name of candidate
+      email: candidate.email, // string
+      title: candidate.title, // string
+      years_of_XP: candidate.years_of_experience, // integer
+      skills: candidate.skills, // string
+      education: candidate.education, // string
+      industry: candidate.industry, // string
+      languages: candidate.languages, // string
+      certifications: candidate.certifications, // string
+      volunteer: candidate.volunteer, // string
+      publications: candidate.publications, // string
+      bio: candidate.bio, // boolean
+      picture: candidate.picture, // boolean
+      posts: candidate.posts, // boolean
+      linkedin_url: candidate.linkedin_url, // string
+    },
   };
 };
 
