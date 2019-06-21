@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const hbs = require('nodemailer-handlebars');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -9,46 +8,29 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.use(
-  'compile',
-  hbs({
-    viewEngine: 'express-handlebars',
-    viewPath: './api/views/',
-  }),
-);
+function parseCanSend(canSend) {
+  return `Hello, ${
+    canSend.name
+  } would be a good fit for your company. Their skills include ${
+    canSend.skills
+  }. You can contact them at ${
+    canSend.email
+  }. Feel free to email me with any questions.`;
+}
 
-let mailOptions;
-
-const sendFunc = (receivers, candidateObject, req, res) => {
-  mailOptions = {
+const mailOptions = (receivers, canSend, req) => {
+  console.log('canSend', canSend);
+  const parsedEmail = parseCanSend(canSend);
+  return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: `${
-      req.headers.user.display_name
-    } has a new job candidate for you!`,
-    text: 'Testing',
-    template: 'index',
-    context: {
-      user_name: req.headers.user.display_name, // string -- name of recruiter sending candidate
-      user_email: req.headers.user.email, // string -- email address associated with recruiter account
-      name: candidateObject.name, // string -- name of candidate
-      email: candidateObject.email, // string
-      title: candidateObject.title, // string
-      years_of_XP: candidateObject.years_of_experience, // integer
-      skills: candidateObject.skills, // string
-      education: candidateObject.education, // string
-      industry: candidateObject.industry, // string
-      languages: candidateObject.languages, // string
-      certifications: candidateObject.certifications, // string
-      volunteer: candidateObject.volunteer, // string
-      publications: candidateObject.publications, // string
-      bio: candidateObject.bio, // boolean
-      picture: candidateObject.picture, // boolean
-      posts: candidateObject.posts, // boolean
-      linkedin_url: candidateObject.linkedin_url, // string
-    },
+    subject: `${req.headers.user.display_name} -- New Candidate!`,
+    text: parsedEmail,
   };
-  transporter.sendMail(mailOptions, (error, info) => {
+};
+
+const sendFunc = (receivers, canSend, req, res) => {
+  transporter.sendMail(mailOptions(receivers, canSend, req), (error, info) => {
     if (error) {
       // res.status(500).json({ message: 'Email error', error });
       console.log('Emailing error', error);

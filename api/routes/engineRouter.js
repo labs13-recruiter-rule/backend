@@ -9,7 +9,7 @@ const engineAuthMW = require('../utils/engineAuthMW');
 
 const router = express.Router();
 
-// // ***** START rule engine implementation playground ***** //
+// ***** START rule engine implementation playground ***** //
 
 // router.post('/noUse', (req, res) => {
 //   const engine = new Engine();
@@ -221,7 +221,7 @@ router.post('/', decodeHeader, async (req, res) => {
     try {
       const newEngine = await userEngines.addEngineToUser(engine);
       res.status(201).json({
-        message: 'Your new engine was added succesfully!',
+        message: 'Your new engine was added successfully!',
         newEngine,
       });
     } catch (error) {
@@ -252,7 +252,7 @@ router.get('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
     console.log(error);
     res
       .status(500)
-      .json({ message: 'Error attemtping to access engine', error });
+      .json({ message: 'Error attempting to access engine', error });
   }
 });
 
@@ -299,7 +299,7 @@ router.delete('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
     } else {
       res
         .status(200)
-        .json({ message: 'You have succesfully deleted your engine' });
+        .json({ message: 'You have successfully deleted your engine' });
     }
   } catch (error) {
     res.status(500).json({ message: 'Error deleting your engine', error });
