@@ -35,7 +35,7 @@ function parseCanSend(canSend, req) {
     canSend.name
   } would be a great fit for your company. You can contact the candidate by email at ${
     canSend.email
-  }. ${candidateInfo}. Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
+  }. ${candidateInfo} Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
 }
 
 const mailOptions = (receivers, canSend, req) => {
