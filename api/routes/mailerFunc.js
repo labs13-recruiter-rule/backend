@@ -8,19 +8,39 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-function parseCanSend(canSend) {
+function parseCanSend(canSend, req) {
+  let skillPhrase = `Their skills include: ${canSend.skills}. `;
+  let educationPhrase = `Their education includes: ${canSend.education} `;
+  let majorPhrase = `They majored in ${canSend.major}. `;
+  let yearsOfXPPhrase = `They have ${canSend.experience} years of experience. `;
+  if (canSend.skills === undefined) {
+    skillPhrase = '';
+  }
+  if (canSend.education === undefined) {
+    educationPhrase = '';
+  }
+  if (canSend.major === undefined) {
+    majorPhrase = '';
+  }
+  if (canSend.experience === undefined || null) {
+    yearsOfXPPhrase = '';
+  }
+  const candidateInfo =
+    skillPhrase + educationPhrase + majorPhrase + yearsOfXPPhrase;
+
+  const recruiter_name = req.headers.user.display_name;
+  const recruiter_email = req.headers.user.email;
+
   return `Hello, ${
     canSend.name
-  } would be a good fit for your company. Their skills include ${
-    canSend.skills
-  }. You can contact them at ${
+  } would be a great fit for your company. You can contact the candidate by email at ${
     canSend.email
-  }. Feel free to email me with any questions.`;
+  }. ${candidateInfo}. Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
 }
 
 const mailOptions = (receivers, canSend, req) => {
   console.log('canSend', canSend);
-  const parsedEmail = parseCanSend(canSend);
+  const parsedEmail = parseCanSend(canSend, req);
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
