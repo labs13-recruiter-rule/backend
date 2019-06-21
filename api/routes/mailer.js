@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post('/', (req, res) => {
-  const receivers = req.body.receivers || 'ducbavu531@gmail.com';
+  const { receivers } = req.body;
   const mailOptions = {
     from: 'recruiterrule@gmail.com',
     to: receivers,

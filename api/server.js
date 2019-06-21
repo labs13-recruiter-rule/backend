@@ -8,7 +8,7 @@ const usersRouter = require('./routes/usersRouter');
 const userContactsRouter = require('./routes/userContacts-router');
 const authRouter = require('./routes/registerRouter');
 const candidatesRouter = require('./routes/candidatesRouter');
-const mailerRouter = require('./routes/mailer');
+// const mailerRouter = require('./routes/mailerFunc');
 const engineRouter = require('./routes/engineRouter');
 const rulesRouter = require('./routes/rulesRouter');
 const emailhistoryRouter = require('./routes/emailhistoryRouter');
@@ -16,6 +16,7 @@ const addresseetypesRouter = require('./routes/addresseetypesRouter');
 const addresseeContactsRouter = require('./routes/addresseeContactsRouter');
 const enginesUseRouter = require('./routes/enginesUseRouter');
 const stripeRouter = require('./routes/stripeRouter');
+// const mailer2Router = require('./routes/mailer');
 
 // Server invocation
 const server = express();
@@ -37,7 +38,8 @@ server.use('/contacts', userContactsRouter); // contacts for each user
 server.use('/auth', authRouter); // authentication
 // User extras
 server.use('/candidates', candidatesRouter); // candidates
-server.use('/mailer', mailerRouter); // sending emails
+// .use('/mailertwo', mailer2Router);
+// server.use('/mailer', mailerRouter); // sending emails
 server.use('/emailhistory', emailhistoryRouter); // email history
 server.use('/groups', addresseetypesRouter); // addressee types, eg manager
 server.use('/groupcontacts', addresseeContactsRouter); // addressee_type contacts, eg individual people to classify as manager

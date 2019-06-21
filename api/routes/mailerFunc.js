@@ -8,12 +8,24 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+function parseCanSend(canSend) {
+  return `Hello, ${
+    canSend.name
+  } would be a good fit for your company. Their skills include ${
+    canSend.skills
+  }. You can contact them at ${
+    canSend.email
+  }. Feel free to email me with any questions.`;
+}
+
 const mailOptions = (receivers, canSend, req) => {
+  console.log('canSend', canSend);
+  const parsedEmail = parseCanSend(canSend);
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
     subject: `${req.headers.user.display_name} -- New Candidate!`,
-    text: JSON.stringify(canSend),
+    text: parsedEmail,
   };
 };
 
