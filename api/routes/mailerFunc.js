@@ -9,12 +9,16 @@ const transporter = nodemailer.createTransport({
 });
 
 function parseCanSend(canSend, req) {
-
-
-  let skillPhrase = `Their skills include:` +  canSend.skills.map(skill => ` ${skill}`) + `. `; 
+  let skillPhrase = `Their skills include:${canSend.skills.map(
+    skill => ` ${skill}`,
+  )}. `;
   let educationPhrase = `Their education includes: ${canSend.education}. `;
-  let majorPhrase = `They majored in` + canSend.major.map(major => ` ${major}`) + `. `;
-  let yearsOfXPPhrase = `The candidate has ${canSend.experience} years of experience. `;
+  let majorPhrase = `They majored in${canSend.major.map(
+    major => ` ${major}`,
+  )}. `;
+  let yearsOfXPPhrase = `The candidate has ${
+    canSend.experience
+  } years of experience. `;
   if (canSend.skills === undefined) {
     skillPhrase = '';
   }
@@ -46,7 +50,9 @@ const mailOptions = (receivers, canSend, req) => {
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: `${req.headers.user.display_name} sent you a new candidate using Recruiter Rule Engine`,
+    subject: `${
+      req.headers.user.display_name
+    } sent you a new candidate using Recruiter Rule Engine`,
     text: parsedEmail,
   };
 };
@@ -57,7 +63,8 @@ const sendFunc = (receivers, canSend, req, res) => {
       // res.status(500).json({ message: 'Email error', error });
       console.log('Emailing error', error);
     } else {
-      res.status(200).json({ message: `The candidate's info was successfully sent to ${receivers}.` });
+      // res.status(200).json({ message: `The candidate's info was successfully sent to ${receivers}.` });
+      console.log('email sent');
       // console.log('from email info', info);
       console.log(`from email info, email sent to ${receivers}`);
     }
