@@ -105,7 +105,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
           events.map(event => {
             if (event.type === 'email') {
               console.log('if statement in engine event');
-              sendFunc(event.params.contact, candidate, req);
+              sendFunc([event.params.contact], candidate, req);
             }
           });
         })

@@ -9,27 +9,34 @@ const transporter = nodemailer.createTransport({
 });
 
 function parseCanSend(canSend, req) {
-
   let skillPhrase = '';
   let linkedInPhrase = '';
   let educationPhrase = '';
   let majorPhrase = '';
   let yearsOfXPPhrase = '';
 
-   if (canSend.candidateLinkedIn !== undefined) {
-    linkedInPhrase = `Their LinkedIn profile can be found at` + canSend.candidateLinkedIn + `. `;  
+  if (canSend.candidateLinkedIn !== undefined) {
+    linkedInPhrase = `Their LinkedIn profile can be found at${
+      canSend.candidateLinkedIn
+    }. `;
   }
   if (canSend.skills !== undefined) {
-    skillPhrase = `Their skills include:` +  canSend.skills.map(skill => ` ${skill}`) + `. `; 
-   }
+    skillPhrase = `Their skills include:${canSend.skills.map(
+      skill => ` ${skill}`,
+    )}. `;
+  }
   if (canSend.education !== undefined) {
-    let educationPhrase = `Their education includes:` + canSend.education.map(education => `${education}`)   `. `; 
-   }
+    educationPhrase = `Their education includes:${canSend.education.map(
+      education => `${education}`,
+    )`. `}`;
+  }
   if (canSend.major !== undefined) {
-    majorPhrase = `They majored in` + canSend.major.map(major => ` ${major}`) + `. `;
+    majorPhrase = `They majored in${canSend.major.map(major => ` ${major}`)}. `;
   }
   if (canSend.experience !== undefined || null) {
-    yearsOfXPPhrase = `The candidate has ${canSend.experience} years of experience. `;
+    yearsOfXPPhrase = `The candidate has ${
+      canSend.experience
+    } years of experience. `;
   }
   const candidateInfo =
     skillPhrase + educationPhrase + majorPhrase + yearsOfXPPhrase;
@@ -50,7 +57,9 @@ const mailOptions = (receivers, canSend, req) => {
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: `${req.headers.user.display_name} sent you a new candidate using Recruiter Rule Engine`,
+    subject: `${
+      req.headers.user.display_name
+    } sent you a new candidate using Recruiter Rule Engine`,
     text: parsedEmail,
   };
 };
@@ -60,8 +69,8 @@ const sendFunc = (receivers, canSend, req, res) => {
     if (error) {
       // res.status(500).json({ message: 'Email error', error });
       console.log('Emailing error', error);
-    // } else {
-    //   res.status(200).json({ message: `The candidate's info was successfully sent to ${receivers}.` });
+      // } else {
+      //   res.status(200).json({ message: `The candidate's info was successfully sent to ${receivers}.` });
       // console.log('from email info', info);
       console.log(`from email info, email sent to ${receivers}`);
     }
