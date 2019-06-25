@@ -20,15 +20,16 @@ function getFallbackName(engine_id) {
 
 function getFallbackEmail(engine_id) {
   return db('engines')
-  .where({id: engine_id})
+  .where({id: engine_id}).first()
   .select('fallbackEmail')
 }
 
 function getFallbackNameAndEmail(engine_id) {
   return db('engines')
-  .where({id: engine_id})
+  .where({id: engine_id}).first()
   .select('fallbackEmail', 'fallbackName')
 }
+
 
 function getEnginesByUUID(user_id) {
   return db('engines').where({ user_id });
@@ -82,6 +83,7 @@ async function deleteUserEngine(id) {
     console.log(error);
   }
 }
+
 
 module.exports = {
   getEngines,

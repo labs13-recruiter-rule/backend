@@ -26,7 +26,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
 
   try {
     const engineRules = await userEngineRules.getRulesByEngineId(engineid);
-
+    const engineFallback = await engineRules.getFallbackEmail(engineid);
     if (engineRules.length > 0) {
       // if the engine has rules, continue to running candidate through the engine
 
@@ -90,7 +90,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
 
       engine.on('failure', (event, almanac, ruleResult) => {
         almanac.factValue('name').then(() => {
-          render(`failed - `, ruleResult);
+          sendFunc(engineFallback, candidate, req)
         });
       });
 
