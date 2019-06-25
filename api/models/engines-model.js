@@ -18,9 +18,9 @@ function getFallbackName(engine_id) {
   .select('fallbackName')
 }
 
-function getFallbackEmail(engine_id) {
+function getFallbackEmail(id) {
   return db('engines')
-  .where({id: engine_id}).first()
+  .where({id}).first()
   .select('fallbackEmail')
 }
 
