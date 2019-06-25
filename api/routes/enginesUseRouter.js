@@ -58,6 +58,42 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
       //   }
       //   console.log('only 1 rule');
       // }
+
+      function render(message, ruleResult) {
+        if (ruleResult.result) {
+          return console.log(`${message} we good from render`);
+        }
+
+        const detail = ruleResult.conditions.all
+          .filter(condition => !condition.result)
+          .map(condition => {
+            switch (condition.operator) {
+              case 'equal':
+                return `was not an ${condition.fact}`;
+              case 'greaterThanInclusive':
+                return `${condition.fact} of ${
+                  condition.factResult
+                } was too low`;
+              case `contains`:
+                return `did not contain ${condition.fact}`;
+            }
+          })
+          .join(` and `);
+        console.log(`${message} from detail ${detail}`);
+      }
+
+      engine.on('success', (event, almanac, ruleResult) => {
+        almanac.factValue(`name`).then(() => {
+          render(`succeeded!, ${event.params.contact}`, ruleResult);
+        });
+      });
+
+      engine.on('failure', (event, almanac, ruleResult) => {
+        almanac.factValue('name').then(() => {
+          render(`failed - `, ruleResult);
+        });
+      });
+
       engine
         .run(candidate)
         .then(function(events) {
