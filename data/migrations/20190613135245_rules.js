@@ -18,6 +18,8 @@ exports.up = function(knex, Promise) {
       .integer('addressee_id')
       .references('id')
       .inTable('addressee_types'); // foreign key referring to the id in the addressee_types table.
+
+    tbl.json('ruleNotParsed');
   });
 };
 

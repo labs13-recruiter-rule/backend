@@ -47,8 +47,11 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
     engine_id: engineid,
     rule: specificRuleJSON,
     addressee_id: req.body.addressee_id,
+    ruleNotParsed: req.body.ruleNotParsed,
   };
   console.log('from reqbodyrule', req.body.rule);
+  console.log('from not parsed', req.body.ruleNotParsed);
+  console.log('from not parsed inside rule', req.body.rule.ruleNotParsed);
   try {
     const addedRule = await userEngineRules.addRuletoEngine(engineid, rule);
     if (addedRule) {
