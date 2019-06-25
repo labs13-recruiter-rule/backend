@@ -46,7 +46,7 @@ const mailOptions = (receivers, canSend, req) => {
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: `${req.headers.user.display_name} -- New Candidate!`,
+    subject: `${req.headers.user.display_name} sent you a new candidate using Recruiter Rule Engine`,
     text: parsedEmail,
   };
 };
