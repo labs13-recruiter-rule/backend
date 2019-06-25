@@ -41,7 +41,7 @@ function parseCanSend(canSend, req) {
     canSend.name
   } would be a great fit for your company. You can contact the candidate by email at ${
     canSend.email
-  }. ${candidateInfo} Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
+  }. ${candidateInfo}Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
 }
 
 const mailOptions = (receivers, canSend, req) => {
@@ -63,9 +63,10 @@ const sendFunc = (receivers, canSend, req, res) => {
       // res.status(500).json({ message: 'Email error', error });
       console.log('Emailing error', error);
     } else {
-      // res.status(200).json({ message: 'Email sent!' });
+      // res.status(200).json({ message: `The candidate's info was successfully sent to ${receivers}.` });
+      console.log('email sent');
       // console.log('from email info', info);
-      console.log('from email info, email sent');
+      console.log(`from email info, email sent to ${receivers}`);
     }
   });
 };

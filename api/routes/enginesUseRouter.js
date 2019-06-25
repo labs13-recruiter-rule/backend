@@ -108,7 +108,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
           console.log('engine had an error', err);
         });
       res.status(200).json({
-        message: 'Candidate was ran through engine succesfully',
+        message: 'Candidate was run through engine successfully.'
       });
     } else {
       res.status(404).json({
