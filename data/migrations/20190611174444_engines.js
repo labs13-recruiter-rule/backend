@@ -7,6 +7,8 @@ exports.up = function(knex, Promise) {
       .inTable('users'); // foreign key referring to the firebase_uuid in the users table.
 
     table.string('engine_name').notNullable();
+    table.string('fallbackName');
+    table.string('fallbackEmail');
 
     // table.json('rule'); // This holds the JSON object for an individual 'rule' or rule-set -- basically the set of conditions pertaining to an 'event', i.e., sending to the specified addressee_type.
 

@@ -26,7 +26,12 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
 
   try {
     const engineRules = await userEngineRules.getRulesByEngineId(engineid);
+    // const engineFallback = await engineRules.getFallbackEmail(engineid);
+    const engineFallback = await userEngines.getFallbackEmail(engineid);
 
+    console.log(engineFallback);
+
+    const { fallbackEmail } = engineFallback;
     if (engineRules.length > 0) {
       // if the engine has rules, continue to running candidate through the engine
 
@@ -90,7 +95,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
 
       engine.on('failure', (event, almanac, ruleResult) => {
         almanac.factValue('name').then(() => {
-          render(`failed - `, ruleResult);
+          sendFunc(fallbackEmail, candidate, req);
         });
       });
 
@@ -108,7 +113,7 @@ router.post('/', decodeHeader, engineAuthMW, async (req, res) => {
           console.log('engine had an error', err);
         });
       res.status(200).json({
-        message: 'Candidate was run through engine successfully.'
+        message: 'Candidate was run through engine successfully.',
       });
     } else {
       res.status(404).json({
