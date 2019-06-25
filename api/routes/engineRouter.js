@@ -186,6 +186,13 @@ const router = express.Router();
 //   }
 // });
 
+router.get(`/fallbackemail/:engine_id`, decodeHeader, async (req, res) => {
+  const engine_id = req.params.engine_id;
+  userEngines.getFallbackEmail(engine_id).then(email => res.status(200).json(email)).catch(error=> res.status(500).json(error))
+})
+
+
+
 // ***** END rule engine implementation playground ***** //
 
 router.get('/', decodeHeader, async (req, res) => {
@@ -260,31 +267,38 @@ router.put('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {
   const { engineid } = req.params;
   const engineModifications = req.body;
 
-  try {
-    const modifyEngine = await userEngines.modifyUserEngine(
-      engineid,
-      engineModifications,
-    );
+  userEngines.modifyUserEngine(engineid, engineModifications).then(result => {
+    res.status(200).json({message: `Engine successfully updated.`});
+  }).catch(error => {
+    res.status(500).json(error)
+  })
 
-    if (!modifyEngine) {
-      res.status(404).json({
-        message:
-          'There was an error updating your engine. Please ensure you are trying to update an existing engine.',
-      });
-    } else {
-      try {
-        const modifiedEngineResult = await userEngines.getEnginesById(engineid);
-        res.status(200).json({
-          message: 'You have succesfully updated your engine!',
-          modifiedEngineResult,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating engine', error });
-  }
+
+  // try {
+  //   const modifyEngine = await userEngines.modifyUserEngine(
+  //     engineid,
+  //     engineModifications,
+  //   );
+
+  //   if (!modifyEngine) {
+  //     res.status(404).json({
+  //       message:
+  //         'There was an error updating your engine. Please ensure you are trying to update an existing engine.',
+  //     });
+  //   } else {
+  //     try {
+  //       const modifiedEngineResult = await userEngines.getEnginesById(engineid);
+  //       res.status(200).json({
+  //         message: 'You have successfully updated your engine!',
+  //         modifiedEngineResult,
+  //       });
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // } catch (error) {
+  //   res.status(500).json({ message: 'Error updating engine', error });
+  // }
 });
 
 router.delete('/:engineid', decodeHeader, engineAuthMW, async (req, res) => {

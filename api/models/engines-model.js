@@ -12,6 +12,24 @@ function getEnginesById(id) {
   //   .join('roles', 'rules_headshot.send_to', 'roles.id')
 }
 
+function getFallbackName(engine_id) {
+  return db('engines')
+  .where({id: engine_id})
+  .select('fallbackName')
+}
+
+function getFallbackEmail(engine_id) {
+  return db('engines')
+  .where({id: engine_id})
+  .select('fallbackEmail')
+}
+
+function getFallbackNameAndEmail(engine_id) {
+  return db('engines')
+  .where({id: engine_id})
+  .select('fallbackEmail', 'fallbackName')
+}
+
 function getEnginesByUUID(user_id) {
   return db('engines').where({ user_id });
 }
@@ -72,4 +90,7 @@ module.exports = {
   getEnginesByUUID,
   modifyUserEngine,
   deleteUserEngine,
+  getFallbackEmail,
+  getFallbackName,
+  getFallbackNameAndEmail
 };
