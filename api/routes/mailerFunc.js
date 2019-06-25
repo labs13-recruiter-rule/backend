@@ -9,10 +9,16 @@ const transporter = nodemailer.createTransport({
 });
 
 function parseCanSend(canSend, req) {
-  let skillPhrase = `Their skills include: ${canSend.skills}. `;
-  let educationPhrase = `Their education includes: ${canSend.education} `;
-  let majorPhrase = `They majored in ${canSend.major}. `;
-  let yearsOfXPPhrase = `They have ${canSend.experience} years of experience. `;
+  let skillPhrase = `Their skills include:${canSend.skills.map(
+    skill => ` ${skill}`,
+  )}. `;
+  let educationPhrase = `Their education includes: ${canSend.education}. `;
+  let majorPhrase = `They majored in${canSend.major.map(
+    major => ` ${major}`,
+  )}. `;
+  let yearsOfXPPhrase = `The candidate has ${
+    canSend.experience
+  } years of experience. `;
   if (canSend.skills === undefined) {
     skillPhrase = '';
   }
@@ -44,7 +50,9 @@ const mailOptions = (receivers, canSend, req) => {
   return {
     from: 'recruiterrule@gmail.com',
     to: receivers,
-    subject: `${req.headers.user.display_name} -- New Candidate!`,
+    subject: `${
+      req.headers.user.display_name
+    } sent you a new candidate using Recruiter Rule Engine`,
     text: parsedEmail,
   };
 };
