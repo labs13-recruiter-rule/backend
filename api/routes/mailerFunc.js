@@ -26,9 +26,7 @@ function parseCanSend(canSend, req) {
     )}. `;
   }
   if (canSend.education !== undefined) {
-    educationPhrase = `Their education includes:${canSend.education.map(
-      education => `${education}`,
-    )`. `}`;
+    educationPhrase = `Their education includes: ${canSend.education}. `;
   }
   if (canSend.major !== undefined) {
     majorPhrase = `They majored in${canSend.major.map(major => ` ${major}`)}. `;
@@ -48,7 +46,7 @@ function parseCanSend(canSend, req) {
     canSend.name
   } would be a great fit for your company. You can contact the candidate by email at ${
     canSend.email
-  }. ${linkedInPhrase} ${candidateInfo}Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
+  }. ${linkedInPhrase} ${candidateInfo} Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
 }
 
 const mailOptions = (receivers, canSend, req) => {
