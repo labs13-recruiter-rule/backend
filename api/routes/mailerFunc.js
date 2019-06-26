@@ -10,24 +10,21 @@ const transporter = nodemailer.createTransport({
 
 function parseCanSend(canSend, req) {
   let skillPhrase = '';
-  let linkedInPhrase = '';
   let educationPhrase = '';
   let majorPhrase = '';
   let yearsOfXPPhrase = '';
 
-  if (canSend.candidateLinkedIn !== undefined) {
-    linkedInPhrase = `Their LinkedIn profile can be found at${
-      canSend.candidateLinkedIn
-    }. `;
-  }
   if (canSend.skills !== undefined) {
     skillPhrase = `Their skills include:${canSend.skills.map(
       skill => ` ${skill}`,
     )}. `;
   }
-  if (canSend.education !== undefined) {
-    educationPhrase = `Their education includes: ${canSend.education}. `;
-  }
+  if (canSend.education !== undefined && canSend.education === "Associate's Degree") {
+      educationPhrase = `They have an ${canSend.education}. `;
+    }
+  if (canSend.education !== undefined && canSend.education !== "Associate's Degree")
+    { educationPhrase = `They have a ${canSend.education}. `; }
+  
   if (canSend.major !== undefined) {
     majorPhrase = `They majored in${canSend.major.map(major => ` ${major}`)}. `;
   }
@@ -37,7 +34,7 @@ function parseCanSend(canSend, req) {
     } years of experience. `;
   }
   const candidateInfo =
-    skillPhrase + educationPhrase + majorPhrase + yearsOfXPPhrase;
+  yearsOfXPPhrase + skillPhrase + educationPhrase + majorPhrase  ;
 
   const recruiter_name = req.headers.user.display_name;
   const recruiter_email = req.headers.user.email;
@@ -46,7 +43,7 @@ function parseCanSend(canSend, req) {
     canSend.name
   } would be a great fit for your company. You can contact the candidate by email at ${
     canSend.email
-  }. ${linkedInPhrase} ${candidateInfo} Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
+  }.  ${candidateInfo} Feel free to reach out to me with any questions. Thank you, ${recruiter_name}  ${recruiter_email}`;
 }
 
 const mailOptions = (receivers, canSend, req) => {
