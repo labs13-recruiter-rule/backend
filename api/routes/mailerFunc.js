@@ -100,7 +100,7 @@ const mailOptions = (receivers, canSend, req) => {
     to: receivers,
     subject: `${
       req.headers.user.display_name
-    } sent you a new candidate using Recruiter Rule Engine`,
+    } sent you a new candidate using Recruiters`,
     text: parsedEmail,
   };
 };
