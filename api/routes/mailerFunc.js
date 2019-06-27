@@ -1,12 +1,26 @@
 const nodemailer = require('nodemailer');
+const sgTransport = require('nodemailer-sendgrid-transport');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.senderEMAIL,
-    pass: process.env.senderPASSWORD,
-  },
-});
+
+
+const sendOptions = {
+    // service: 'gmail',
+    // auth: {
+    //   user: process.env.senderEMAIL,
+    //   pass: process.env.senderPASSWORD,
+    // },
+    service: 'sendgrid', 
+    auth: {
+      api_user: process.env.sendUSER,
+      api_key: process.env.sendAPIKEY
+    }
+}
+
+
+const transporter = nodemailer.createTransport(sgTransport(sendOptions
+));
+
+
 
 function parseCanSend(canSend, req) {
   let skillPhrase = '';
@@ -96,12 +110,15 @@ const mailOptions = (receivers, canSend, req) => {
   console.log('canSend', canSend);
   const parsedEmail = parseCanSend(canSend, req);
   return {
-    from: 'recruiterrule@gmail.com',
+    from: `${req.headers.user.display_name} newcandidate@recruiterrules.com`,
     to: receivers,
     subject: `${
       req.headers.user.display_name
     } sent you a new candidate using Recruiter Rules`,
     text: parsedEmail,
+    html: `
+    <p>${parsedEmail}</p><br>
+    <footer>This email was sent to you using <a href='recruiterrules.com'>recruiterrules.com</a></footer>`
   };
 };
 
