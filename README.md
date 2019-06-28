@@ -1,33 +1,22 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [Heroku](https://recruiter-back-end.herokuapp.com/) <br>
+#### Backend delpoyed on [Heroku](https://recruiter-back-end.herokuapp.com//) <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
-- **yarn install** to install all required dependencies
+- **yarn** to install all required dependencies
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
-- **yarn lint (--fix)** to run code linter
 
-### Backend framework goes here
+### Node.js & Express.js
 
 🚫 Why did you choose this framework?
 
-- Point One
-- Point Two
-- Point Three
-- Point Four
+- Performance - Uses Chrome’s V8 JavaScript engine
+- Node.js’ package ecosystem, npm
 
 ## 2️⃣ Endpoints
 
@@ -44,8 +33,8 @@ To get the server running locally:
 
 ### User Contact Routes
 
-| Method | Endpoint                      |     | Description                                                |
-| ------ | ----------------------------- | --- | ---------------------------------------------------------- |
+| Method | Endpoint              |     | Description                                                |
+| ------ | --------------------- | --- | ---------------------------------------------------------- |
 | GET    | `/users/contacts`     |     | Returns contacts for that user                             |
 | GET    | `/users/contacts/:id` |     | Returns specific contact for that user.                    |
 | POST   | `/users/contacts`     |     | Adds a contact to a user. Needs email and name.            |
@@ -79,6 +68,7 @@ To get the server running locally:
 | GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
 | PUT    | `/organizations/:orgId` | owners         | Modify an existing organization.             |
 | DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+
 
 # Data Model
 
@@ -204,49 +194,55 @@ To get the server running locally:
 }
 ```
 
-## 2️⃣ Actions
+## Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+### Candidates
+`getCandidates()` -> Returns all candidates
 
-`getOrgs()` -> Returns all organizations
+`getCandidatesById(id)` -> Returns a single candidates by ID
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`addCandidate(candidate)` -> Adds a candidate
 
-`addOrg(org)` -> Returns the created org
+`updateCandidate(id, candidate)` -> Update a candidate by ID
 
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
+`deleteCandidate(id)`  -> Delete a candidate by ID
 <br>
 <br>
 <br>
-`getUsers(orgId)` -> if no param all users
 
-`getUser(userId)` -> Returns a single user by user ID
+### Engines
+`getEngines()` -> Returns all engines 
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`getEnginesById(id)` -> Returns a single engine by engine ID
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`getEnginesByUUID(user_id)` > Returns a single engine by Firebase UUID
 
-`deleteUser(userId)` -> deletes everything dependent on the user
+`addEngineToUser(engine)` -> Adds an engine
 
-## 3️⃣ Environment Variables
+`modifyUserEngine(id, engine)` -> Update an engine by ID
+
+`deleteUserEngine(id)` -> Delete an engine by ID
+
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
-
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
-- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
-
+- DB_ENV
+- SEED_NUM
+- PROJECT_ID
+- PRIVATE_KEY_ID
+- PRIVATE_KEY
+- CLIENT_EMAIL
+- CLIENT_ID
+- CLIENT_X509_CERT_URL
+- senderEMAIL
+- senderPASSWORD
+- 
 ## Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+When contributing to this repository, please first discuss the change you wish to make by creating an issue in the GitHub repo.
 
 Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
 
@@ -272,7 +268,7 @@ Remember that this project is licensed under the MIT license, and by submitting 
 #### Pull Request Guidelines
 
 - Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-- Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
+- Update the README.md with details of changes to the interface, including new variables, exposed ports, useful file locations and container parameters.
 - Ensure that your code conforms to our existing code conventions and test coverage.
 - Include the relevant issue number, if applicable.
 - You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
@@ -283,5 +279,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/labs13-recruiter-rule/frontend/blob/master/README.md) for details on the fronend of our project.
