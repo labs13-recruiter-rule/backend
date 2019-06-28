@@ -147,7 +147,7 @@ const mailOptions = (receivers, canSend, req) => {
     } sent you a new candidate using Recruiter Rules`,
     text: parsedEmail,
     html: `
-    <p>${parsedEmail}</p>`,
+    <p>${parsedEmail}</p><br>`,
   };
 };
 
