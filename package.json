@@ -8,7 +8,7 @@
     "firebase-admin": "^8.0.0",
     "helmet": "^3.18.0",
     "json-rules-engine": "^3.0.2",
-    "knex": "^0.17.0",
+    "knex": "^0.19.5",
     "nodemailer": "^6.2.1",
     "nodemailer-express-handlebars": "^3.0.0",
     "nodemailer-handlebars": "^1.0.1",
